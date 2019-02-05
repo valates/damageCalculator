@@ -1,0 +1,54 @@
+{
+	"Abyssal Blade (melee)": {
+		"block chance": "50%",
+		"block amount": 70
+	},
+	"Abyssal Blade (ranged)": {
+		"block chance": "50%",
+		"block amount": 35
+	},
+	"Crimson Guard passive (melee)": {
+		"block chance": "50%",
+		"block amount": 70
+	},
+	"Crimson Guard passive (ranged)": {
+		"block chance": "50%",
+		"block amount": 35
+	},
+	"Kraken Shell level 1": {
+		"block chance": "100%",
+		"block amount": 12
+	},
+	"Kraken Shell level 2": {
+		"block chance": "100%",
+		"block amount": 24
+	},
+	"Kraken Shell level 3": {
+		"block chance": "100%",
+		"block amount": 36
+	},
+	"Kraken Shell level 4": {
+		"block chance": "100%",
+		"block amount": 48
+	},
+	"Crimson Guard active": {
+		"block chance": "100%",
+		"block amount": 60
+	},
+	"Stout Shield (melee)": {
+		"block chance": "50%",
+		"block amount": 20
+	},
+	"Stout Shield (ranged)": {
+		"block chance": "50%",
+		"block amount": 9
+	},
+	"Vanguard (melee)": {
+		"block chance": "50%",
+		"block amount": 70
+	},
+	"Vanguard (ranged)": {
+		"block chance": "50%",
+		"block amount": 35
+	}
+}

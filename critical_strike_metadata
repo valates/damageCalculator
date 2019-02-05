@@ -1,0 +1,222 @@
+{
+	"Alpha Wolf Passive": {
+		"crit chance": "20%",
+		"crit multiplier": "200%"
+	},
+	"Drunken Brawler (non-guaranteed crit) level 1": {
+		"crit chance": "80%",
+		"crit multiplier": "140%"
+	},
+	"Drunken Brawler (non-guaranteed crit) level 2": {
+		"crit chance": "80%",
+		"crit multiplier": "180%"
+	},
+	"Drunken Brawler (non-guaranteed crit) level 3": {
+		"crit chance": "80%",
+		"crit multiplier": "220%"
+	},
+	"Drunken Brawler (non-guaranteed crit) level 4": {
+		"crit chance": "80%",
+		"crit multiplier": "260%"
+	},
+	"Drunken Brawler (guaranteed crit) level 1": {
+		"crit chance": "100%",
+		"crit multiplier": "140%"
+	},
+	"Drunken Brawler (guaranteed crit) level 2": {
+		"crit chance": "100%",
+		"crit multiplier": "180%"
+	},
+	"Drunken Brawler (guaranteed crit) level 3": {
+		"crit chance": "100%",
+		"crit multiplier": "220%"
+	},
+	"Drunken Brawler (guaranteed crit) level 4": {
+		"crit chance": "100%",
+		"crit multiplier": "260%"
+	},
+	"Drunken Brawler (non-guaranteed crit) with level 25 crit damage talent": {
+		"crit chance": "80%",
+		"crit multiplier": "435%"
+	},
+	"Drunken Brawler (guaranteed crit) with level 25 crit damage talent": {
+		"crit chance": "100%",
+		"crit multiplier": "435%"
+	},
+	"Blade Dance level 1": {
+		"crit chance": "20%",
+		"crit multiplier": "180%"
+	},
+	"Blade Dance level 2": {
+		"crit chance": "25%",
+		"crit multiplier": "180%"
+	},
+	"Blade Dance level 3": {
+		"crit chance": "30%",
+		"crit multiplier": "180%"
+	},
+	"Blade Dance level 4": {
+		"crit chance": "35%",
+		"crit multiplier": "180%"
+	},
+	"Coup de Grace level 1": {
+		"crit chance": "15%",
+		"crit multiplier": "200%"
+	},
+	"Coup de Grace level 2": {
+		"crit chance": "15%",
+		"crit multiplier": "325%"
+	},
+	"Coup de Grace level 3": {
+		"crit chance": "15%",
+		"crit multiplier": "450%"
+	},
+	"Coup de Grace with level 25 talent": {
+		"crit chance": "20%",
+		"crit multiplier": "450%"
+	},
+	"Riki level 15 talent": {
+		"crit chance": "20%",
+		"crit multiplier": "150%"
+	},
+	"Chaos Strike (Minimum crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "120%"
+	},
+	"Chaos Strike level 1 (Expected crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "143.5%"
+	},
+	"Chaos Strike level 2 (Expected crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "159.6%"
+	},
+	"Chaos Strike level 3 (Expected crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "176.6%"
+	},
+	"Chaos Strike level 4 (Expected crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "193.8%"
+	},
+	"Chaos Strike level 1 (Maximum crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "160%"
+	},
+	"Chaos Strike level 2 (Maximum crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "195%"
+	},
+	"Chaos Strike level 3 (Maximum crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "230%"
+	},
+	"Chaos Strike level 4 (Maximum crit)": {
+		"crit chance": "100%",
+		"crit multiplier": "265%"
+	},
+	"Shapeshift level 1": {
+		"crit chance": "40%",
+		"crit multiplier": "150%"
+	},
+	"Shapeshift level 2": {
+		"crit chance": "40%",
+		"crit multiplier": "175%"
+	},
+	"Shapeshift level 3": {
+		"crit chance": "40%",
+		"crit multiplier": "200%"
+	},
+	"Shapeshift with level 25 talent": {
+		"crit chance": "80%",
+		"crit multiplier": "200%"
+	},
+	"Phantom Lancer level 25 talent": {
+		"crit chance": "30%",
+		"crit multiplier": "200%"
+	},
+	"Mortal Strike level 1": {
+		"crit chance": "9%",
+		"crit multiplier": "300%"
+	},
+	"Mortal Strike level 2": {
+		"crit chance": "11%",
+		"crit multiplier": "300%"
+	},
+	"Mortal Strike level 3": {
+		"crit chance": "13%",
+		"crit multiplier": "300%"
+	},
+	"Mortal Strike level 4": {
+		"crit chance": "15%",
+		"crit multiplier": "300%"
+	},
+	"Boundless Strike level 1": {
+		"crit chance": "100%",
+		"crit multiplier": "150%"
+	},
+	"Boundless Strike level 2": {
+		"crit chance": "100%",
+		"crit multiplier": "175%"
+	},
+	"Boundless Strike level 3": {
+		"crit chance": "100%",
+		"crit multiplier": "200%"
+	},
+	"Boundless Strike level 4": {
+		"crit chance": "100%",
+		"crit multiplier": "225%"
+	},
+	"Boundless Strike with level 20 talent level 1": {
+		"crit chance": "100%",
+		"crit multiplier": "200%"
+	},
+	"Boundless Strike with level 20 talent level 2": {
+		"crit chance": "100%",
+		"crit multiplier": "225%"
+	},
+	"Boundless Strike with level 20 talent level 3": {
+		"crit chance": "100%",
+		"crit multiplier": "250%"
+	},
+	"Boundless Strike with level 20 talent level 4": {
+		"crit chance": "100%",
+		"crit multiplier": "275%"
+	},
+	"Walrus Punch active": {
+		"crit chance": "100%",
+		"crit multiplier": "350%"
+	},
+	"Walrus Punch active with level 20 crit talent": {
+		"crit chance": "100%",
+		"crit multiplier": "450%"
+	},
+	"Walrus Punch with level 25 12% proc chance talent": {
+		"crit chance": "12%",
+		"crit multiplier": "350%"
+	},
+	"Walrus Punch with level 20 crit and level 25 12% proc chance talents": {
+		"crit chance": "12%",
+		"crit multiplier": "450%"
+	},
+	"Track level 1": {
+		"crit chance": "100%",
+		"crit multiplier": "140%"
+	},
+	"Track level 2": {
+		"crit chance": "100%",
+		"crit multiplier": "170%"
+	},
+	"Track level 3": {
+		"crit chance": "100%",
+		"crit multiplier": "200%"
+	},
+	"Bloodthorne Active": {
+		"crit chance": "100%",
+		"crit multiplier": "140%"
+	},
+	"Sniper Aghanim's": {
+		"crit chance": "100%",
+		"crit multiplier": "280%"
+	}
+}

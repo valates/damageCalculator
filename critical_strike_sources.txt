@@ -1,0 +1,55 @@
+Alpha Wolf Passive
+Drunken Brawler (non-guaranteed crit) level 1
+Drunken Brawler (non-guaranteed crit) level 2
+Drunken Brawler (non-guaranteed crit) level 3
+Drunken Brawler (non-guaranteed crit) level 4
+Drunken Brawler (guaranteed crit) level 1
+Drunken Brawler (guaranteed crit) level 2
+Drunken Brawler (guaranteed crit) level 3
+Drunken Brawler (guaranteed crit) level 4
+Drunken Brawler (non-guaranteed crit) with level 25 crit damage talent
+Drunken Brawler (guaranteed crit) with level 25 crit damage talent
+Blade Dance level 1
+Blade Dance level 2
+Blade Dance level 3
+Blade Dance level 4
+Coup de Grace level 1
+Coup de Grace level 2
+Coup de Grace level 3
+Coup de Grace with level 25 talent
+Riki level 15 talent
+Chaos Strike (Minimum crit)
+Chaos Strike level 1 (Expected crit)
+Chaos Strike level 2 (Expected crit)
+Chaos Strike level 3 (Expected crit)
+Chaos Strike level 4 (Expected crit)
+Chaos Strike level 1 (Maximum crit)
+Chaos Strike level 2 (Maximum crit)
+Chaos Strike level 3 (Maximum crit)
+Chaos Strike level 4 (Maximum crit)
+Shapeshift level 1
+Shapeshift level 2
+Shapeshift level 3
+Shapeshift with level 25 talent
+Phantom Lancer level 25 talent
+Mortal Strike level 1
+Mortal Strike level 2
+Mortal Strike level 3
+Mortal Strike level 4
+Boundless Strike level 1
+Boundless Strike level 2
+Boundless Strike level 3
+Boundless Strike level 4
+Boundless Strike with level 20 talent level 1
+Boundless Strike with level 20 talent level 2
+Boundless Strike with level 20 talent level 3
+Boundless Strike with level 20 talent level 4
+Walrus Punch active
+Walrus Punch active with level 20 crit talent
+Walrus Punch with level 25 12% proc chance talent
+Walrus Punch with level 20 crit and level 25 12% proc chance talents
+Track level 1
+Track level 2
+Track level 3
+Bloodthorne Active
+Sniper Aghanim's

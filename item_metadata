@@ -1,0 +1,1065 @@
+#No actives
+#No block procs (is present in block metadata for now)
+#No bash
+
+{
+	#Attributes
+	"Iron Branch": {
+		"strength": 1,
+		"agility": 1,
+		"intelligence": 1
+	},
+	"Circlet": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2
+	},
+	"Robe of the Magi": {
+		"intelligence": 6
+	},
+	"Gauntlets of Strength": {
+		"strength": 3
+	},
+	"Band of Elvenskin": {
+		"agility": 6
+	},
+	"Blade of Alacrity": {
+		"agility": 10
+	},
+	"Mantle of Intelligence": {
+		"intelligence": 3
+	},
+	"Belt of Strength": {
+		"strength": 6
+	},
+	"Ogre Axe": {
+		"strength": 10
+	},
+	"Slippers of Agility": {
+		"agility": 3
+	},
+	"Crown": {
+		"strength": 4,
+		"agility": 4,
+		"intelligence": 4
+	},
+	"Staff of Wizardry": {
+		"intelligence": 10
+	},
+
+	#Armaments
+	"Ring of Protection": {
+		"armor": 2
+	},
+	"Quarterstaff": {
+		"attack speed": 10,
+		"damage": 10
+	},
+	"Claymore": {
+		"damage": 21
+	},
+	"Blight Stone": {
+		"armor of target": -2
+	},
+	"Helm of Iron Will": {
+		"armor": 5,
+		"health regen": 3.5
+	},
+	"Mithril Hammer": {
+		"damage": 24
+	},
+	"Stout Shield": {
+	},
+	"Blades of Attack": {
+		"damage": 9
+	},
+	"Javelin": {
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Javelin (zero procs)": {
+	},
+	"Chainmail": {
+		"damage": 5
+	},
+	"Broadsword": {
+		"damage": 18
+	},
+
+	#Arcane
+	"Boots of Speed": {
+		"move speed percent boost": "15%"
+	},
+	"Ring of Health": {
+		"health regen": 6
+	},
+	"Shadow Amulet": {
+		"attack speed": 20
+	},
+	"Wind Lace": {
+		"move speed": 20
+	},
+	"Gloves of Haste": {
+		"attack speed": 20
+	},
+	"Void Stone": {
+		"mana regen": 1.75
+	},
+	"Ghost Sceptre": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 5
+	},
+	"Ghost Sceptre (active used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 5,
+		"is ethereal": True,
+		"magic resist": "-40%"
+	},
+	"Ring of Regen": {
+		"health regen": 2
+	},
+	"Cloak": {
+		"magic resist": "15%"
+	},
+	"Sage's Mask": {
+		"mana regen": 0.75
+	},
+	"Ring of Tarrasque": {
+		"health": 150,
+		"health regen": 3.75
+	},
+	"Morbid Mask": {
+		"lifesteal": "15%"
+	},
+
+	#Secret
+	"Energy Booster": {
+		"mana" :250
+	},
+	"Vitality Booster": {
+		"health": 250
+	},
+	"Point Booster": {
+		"health": 175,
+		"mana": 175
+	}, 
+	"Platemail": {
+		"armor": 10
+	},
+	"Talisman of Evasion": {
+		"evasion": "10%"
+	},
+	"Hyperstone": {
+		"attack speed": 55
+	},
+	"Ultimate Orb": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 10
+	},
+	"Demon Edge": {
+		"damage": 42
+	},
+	"Mystic Staff": {
+		"intelligence": 25
+	},
+	"Reaver": {
+		"strength": 25
+	},
+	"Eaglesong": {
+		"agility": 25
+	},
+	"Sacred Relic": {
+		"damage": 60
+	},
+
+	#Common Upgrades
+	"Magic Wand": {
+		"strength": 3,
+		"agility": 3,
+		"intelligence": 3
+	},
+	"Soul Ring": {
+		"strength": 6,
+		"health regen": 2.5
+	},
+	"Phase Boots (melee)": {
+		"armor": 6,
+		"damage": 18,
+		"move speed percent boost": "15%"
+	},
+	"Phase Boots (ranged)": {
+		"armor": 6,
+		"damage": 12,
+		"move speed percent boost": "15%"
+	},
+	"Phase Boots with active (melee)": {
+		"armor": 6,
+		"damage": 18,
+		"move speed percent boost": "37%"
+	},
+	"Phase Boots with active (ranged)": {
+		"armor": 6,
+		"damage": 12,
+		"move speed percent boost": "28%"
+	},
+	"Boots of Travel 1": {
+		"move speed percent boost": "32%"
+	},
+	"Boots of Travel 2": {
+		"move speed percent boost": "35%"
+	},
+	"Bracer": {
+		"strength": 6,
+		"agility": 3,
+		"intelligence": 3,
+		"magic resist": "6%"
+	},
+	"Wraith Band": {
+		"strength": 3,
+		"agility": 6,
+		"intelligence": 3,
+		"attack speed": 6
+	},
+	"Null Talisman": {
+		"strength": 3,
+		"agility": 3,
+		"intelligence": 6,
+		"spell amp": "3%"
+	},
+	"Power Treads (Strength)": {
+		"strength": 10,
+		"attack speed": 20,
+		"move speed percent boost": "15%"
+	},
+	"Power Treads (Agility)": {
+		"agility": 10,
+		"attack speed": 20,
+		"move speed percent boost": "15%"
+	},
+	"Power Treads (Intelligence)": {
+		"intelligence": 10,
+		"attack speed": 20,
+		"move speed percent boost": "15%"
+	},
+	"Oblivion Staff": {
+		"intelligence": 10,
+		"attack speed": 10,
+		"intelligence": 1.25,
+		"damage": 10
+	},
+	"Moon Shard": {
+		"attack speed": 140
+	},
+	"Moon Shard (consumed)": {
+		"attack speed": 60
+	},
+	"Perseverance": {
+		"health regen": 6,
+		"mana regen": 2
+	},
+	"Hand of Midas": {
+		"attack speed": 40
+	},
+
+	#Support Upgrades
+	"Ring of Basilius": {
+		"damage": 7,
+		"armor": 2,
+		"mana regen": 0.75
+	},
+	"Tranquil Boots (active)": {
+		"health regen": 16,
+		"move speed percent boost": "24%"
+	},
+	"Tranquil Boots (not active)": {
+		"move speed percent boost": "20%"
+	},
+	"Vladmir's Offering (melee)": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"lifesteal": "15%",
+		"damage percent bonus": "15%",
+		"mana regen": 1.75,
+		"armor": 4
+	},
+	"Vladmir's Offering (ranged)": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"lifesteal": "10%",
+		"damage percent bonus": "15%",
+		"mana regen": 1.75,
+		"armor": 4
+	},
+	"Pipe of Insight": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"health regen": 8,
+		"magic resist": "30%"
+	},
+	"Pipe of Insight (aura from ally)": {
+		"health regen": 3,
+		"magic resist": "10%"
+	},
+	"Pipe of Insight magic barrier": {
+		"magic barrier": 400
+	},
+	"Medallion of Courage": {
+		"armor": 7,
+		"mana regen": 0.75
+	},
+	"Medallion of Courage (cast on other hero)": {
+		"mana regen": 0.75
+	},
+	"Medallion of Courage (Cast by ally)": {
+		"armor": 7
+	},
+	"Medallion of Courage (Cast by enemy)": {
+		"armor": -7
+	},
+	"Headress": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"health regen": 2 #Aura works on self
+	}, 
+	"Headress (aura from ally)": {
+		"health regen": 2
+	}, 
+	"Buckler": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"armor": 5
+	},
+	"Buckler (active cast by ally)": {
+		"armor": 2
+	},
+	"Mekansm": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 5,
+		"armor": 5,
+		"health regen": 4.5 #Aura works on self
+	},
+	"Mekansm (aura from ally)": {
+		"health regen": 4.5
+	},
+	"Mekansm (active aura from ally)": {
+		"armor": 2
+	},
+	"Guardian Greaves": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 5,
+		"armor": 7, #Aura applies to self and stacks with armor stat
+		"mana": 250,
+		"move speed percent boost": "17%",
+		"health regen": 4.5,
+	},
+	"Guardian Greaves (aura from ally)": {
+		"armor": 2,
+		"health regen": 4.5,
+	},
+	"Guardian Greaves (hero below 20% HP & aura from ally)": {
+		"armor": 15,
+		"health regen": 16,
+	},
+	"Arcane Boots": {
+		"mana": 250,
+		"move speed percent boost": "15%"
+	},
+	"Holy Locket": {
+		"health": 200,
+		"health regen": 4,
+		"mana": 325,
+		"magic resist": "15%",
+		"regen amp": "25%",
+		"healing amp": "25%"
+	},
+	"Drum of Endurance": {
+		"strength": 6,
+		"agility": 6,
+		"intelligence": 6,
+		"mana regen": 1.5,
+		"move speed": 20
+	},
+	"Drum of Endurance (active cast by ally)": {
+		"attack speed": 35,
+		"move speed percent boost": "13%"
+	},
+	"Urn of Shadows": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"armor": 2,
+		"mana regen": 1.5
+	},
+	"Urn of Shadows (tick from ally)": {
+		"magic burst": 30
+	},
+	"Urn of Shadows (tick from enemy)": {
+		"magic burst": -25
+	},
+	"Spirit Vessel": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"health": 250,
+		"armor": 2,
+		"mana regen": 1.5,
+		"move speed": 20
+	},
+	"Spirit Vessel (tick from ally)": {
+		"magic burst": 30
+	},
+	"Spirit Vessel (tick from enemy)": { 
+		#Tested in game, it doesnt reduce the healing you provide to others (its not inverse of holy locket)
+		#it reduces healing you receive.
+		#Reduced receive healing does not seem to be a useful variable with our current time discretized scheme
+		"max health change per second": "-5%",
+		"health regen": -30
+	},
+
+	#Caster Upgrades
+	"Necronomicon 1": {
+		"strength": 10,
+		"mana regen": 2
+	},
+	"Necronomicon 2": {
+		"strength": 15,
+		"mana regen": 2.5
+	},
+	"Necronomicon 3": {
+		"strength": 20,
+		"mana regen": 3
+	},
+	"Dagon 1": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 18
+	},
+	"Dagon 2": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 21
+	},
+	"Dagon 3": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 24
+	},
+	"Dagon 4": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 27
+	},
+	"Dagon 5": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 30
+	},
+	"Dagon 1 (burst used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 18,
+		"magic burst": 400
+	},
+	"Dagon 2 (burst used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 21,
+		"magic burst": 500
+	},
+	"Dagon 3 (burst used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 24,
+		"magic burst": 600
+	},
+	"Dagon 4 (burst used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 27,
+		"magic burst": 700
+	},
+	"Dagon 5 (burst used)": {
+		"strength": 5,
+		"agility": 5,
+		"intelligence": 30,
+		"magic burst": 800
+	},
+	"Glimmer Cape": {
+		"attack speed": 20,
+		"magic resist": "15%"
+	},
+	"Glimmer Cape (active used on self)": {
+		"attack speed": 20,
+		"magic resist": "45%"
+	},
+	"Glimmer Cape (active used by ally)": {
+		"magic resist": "45%"
+	},
+	"Aghanim's Scepter": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 10,
+		"health": 175,
+		"mana": 175
+	},
+	"Veil of Discord": {
+		"strength": 6,
+		"agility": 6,
+		"intelligence": 15,
+		"health regen": 6,
+		"armor": 6
+	},
+	"Veil of Discord (active used by enemy)": {
+		"magic resistance": "-25%"
+	},
+	"Solar Crest": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 10,
+		"armor": 12,
+		"mana regen": 1.5,
+		"move speed": 20
+	},
+	"Solar Crest (cast on another)": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 10,
+		"mana regen": 1.5,
+		"move speed": 20
+	},
+	"Solar Crest (cast by ally)": {
+		"attack speed": 70,
+		"armor": 12,
+		"move speed percent boost": "10%"
+	},
+	"Solar Crest (cast by enemy)": {
+		"attack speed": -70,
+		"armor": -12,
+		"move speed percent boost": "-10%"
+	},
+	"Nullifier": {
+		"damage": 65,
+		"armor": 5,
+		"health regen": 6
+	},
+	"Scythe of Vyse": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 35,
+		"mana regen": 9
+	},
+	"Force Staff": {
+		"intelligence": 10,
+		"health regen": 2.5
+	},
+	"Eul's Scepter of Divinity": {
+		"intelligence": 10,
+		"mana regen": 5,
+		"move speed": 20
+	},
+	"Octarine Core": {
+		"intelligence": 25,
+		"health": 425,
+		"mana": 425,
+		"spell lifesteal": "25%"
+	},
+	"Aether Lens": {
+		"mana regen": 3,
+		"mana": 450,
+		"cast range extension": 250
+	},
+	"Rod of Atos": {
+		"strength": 10,
+		"agility": 10,
+		"intelligence": 20
+	},
+	"Orchid Malevolence": {
+		"intelligence": 25,
+		"attack speed": 30,
+		"mana regen": 5.5,
+		"damage": 30
+	},
+	"Refresher Orb": {
+		"health regen": 13,
+		"mana regen": 12
+	},
+
+	#Armor Upgrades
+	"Hood of Defiance": {
+		"health regen": 8,
+		"magic resist": "25%"
+	},
+	"Hood of Defiance magic barrier": {
+		"magic barrier": 400
+	},
+	"Aeon Disk": {
+		"health": 300,
+		"mana": 300
+	},
+	"Aeon Disk (Combo Breaker triggered)": {
+		"health": 300,
+		"mana": 300,
+		"status resistance": "75%"
+	},
+	"Hurricane Pike": {
+		"strength": 15,
+		"agility": 20,
+		"intelligence": 13,
+		"health regen": 2.5,
+		"attack range": 140
+	},
+	"Linken's Sphere": {
+		"strength": 13,
+		"agility": 13,
+		"intelligence": 13,
+		"health regen": 6.5,
+		"mana regen": 5
+	},
+	"Vanguard": {
+		"health": 250,
+		"health regen": 7
+	},
+	"Crimson Guard": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"health": 250,
+		"health regen": 7,
+		"armor": 5
+	},
+	"Manta Style": {
+		"strength": 10,
+		"agility": 26,
+		"intelligence": 10,
+		"attack speed": 12,
+		"move speed": 20
+	},
+	"Heart of Tarrasque": {
+		"strength": 45,
+		"health": 400,
+		"regen amp": "50%"
+	},
+	"Heart of Tarrasque (passive regen)": {
+		"strength": 45,
+		"health": 400,
+		"regen amp": "50%",
+		"max health change per second": "5%"
+	},
+	"Blade Mail": {
+		"intelligence": 10,
+		"armor": 5,
+		"damage": 22
+	},
+	"Lotus Orb": {
+		"health regen": 6.5,
+		"armor": 10,
+		"mana": 250,
+		"mana regen": 4
+	},
+	"Shiva's Guard": {
+		"intelligence": 30,
+		"armor": 15
+	},
+	"Shiva's Guard (active used)": {
+		"intelligence": 30,
+		"armor": 15,
+		"magic burst": 200
+	},
+	"Shiva's Guard (aura from enemy)": {
+		"attack speed": -45
+	},
+	"Assault Cuirass": {
+		"attack speed": 30,
+		"armor": 10
+	},
+	"Assault Cuirass (Aura from ally)": {
+		"attack speed": 25,
+		"armor": 5
+	},
+	"Assault Cuirass (Aura from enemy)": {
+		"armor": -5
+	},
+	"Soul Booster": {
+		"attack speed": 425,
+		"armor": 425
+	},
+	"Black King Bar": {
+		"strength": 10,
+		"damage": 24
+	},
+	"Black King Bar (active used)": {
+		"strength": 10,
+		"damage": 24,
+		"magic resist": "100%"
+	},
+	"Bloodstone": {
+		"health":475,
+		"health regen": 6,
+		"mana": 425,
+		"mana regen": 3,
+		"mana regen amp": "200%"
+	},
+
+	#Weapons Upgrades
+	"Crystalys": {
+		"damage": 38,
+		"critical strike": 
+			{
+				"crit chance": "20%", 
+				"crit multiplier": "175%"
+			}
+	},
+	"Skull Basher (melee)": {
+		"strength": 10,
+		"damage": 25,
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Skull Basher (ranged)": {
+		"strength": 10,
+		"damage": 25,
+		"conditional proc": 
+			{
+				"proc chance": "10%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Skull Basher (zero procs)": {
+		"strength": 10,
+		"damage": 25
+	},
+	"Radiance": {
+		"damage": 65
+	},
+	"Radiance (with miss chance)": {
+		"damage": 65,
+		"evasion": "17%"
+	},
+	"Radiance (with miss chance and burn on enemy)": {
+		"damage": 65,
+		"evasion": "17%",
+		"magic burst": 60
+	},
+	"Radiance (with miss chance from ally)": {
+		"evasion": "17%"
+	},
+	"Radiance (burn damage from enemy)": {
+		"magic burst": 60
+	},
+	"Divine Rapier": {
+		"damage": 330
+	},
+	"Armlet of Mordiggian": {
+		"health regen": 5,
+		"armor": 5,
+		"attack speed": 25,
+		"damage": 9
+	},
+	"Armlet of Mordiggian (toggled on)": {
+		"health regen": 5,
+		"armor": 9,
+		"attack speed": 25,
+		"damage": 40,
+		"strength": 25,
+		"health regen": -54
+	},
+	"Monkey King Bar": {
+		"damage": 52,
+		"attack speed": 10,
+		"conditional proc": 
+			{
+				"proc chance": "75%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Monkey King Bar (zero procs)": {
+		"damage": 52,
+		"attack speed": 10
+	},
+	"Daedalus": {
+		"damage": 80,
+		"critical strike": 
+			{
+				"crit chance": "30%", 
+				"crit multiplier": "235%"
+			}
+	},
+	"Abyssal Blade (melee)": {
+		"strength": 10,
+		"health": 250,
+		"health regen": 10,
+		"damage": 25,
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Abyssal Blade (ranged)": {
+		"strength": 10,
+		"health": 250,
+		"health regen": 10,
+		"damage": 25,
+		"conditional proc": 
+			{
+				"proc chance": "10%",
+				"proc damage": 100,
+				"proc damage type": "magical"
+			}
+	},
+	"Abyssal Blade (zero procs)": {
+		"strength": 10,
+		"health": 250,
+		"health regen": 10,
+		"damage": 25
+	},
+	"Meteor Hammer": {
+		"damage": 12,
+		"intelligence": 12,
+		"health regen": 5,
+		"mana regen": 3
+	},
+	"Battlefury": {
+		"health regen": 7.5,
+		"mana regen": 3.75,
+		"damage": 45
+	},
+	"Butterfly": {
+		"agility": 35,
+		"attack speed": 30,
+		"damage": 25,
+		"evasion": "35%"
+	},
+	"Bloodthorn": {
+		"intelligence": 25,
+		"attack speed": 30,
+		"mana regen": 5.5,
+		"damage": 68
+	},
+	"Shadow Blade": {
+		"attack speed": 30,
+		"damage": 22
+	},
+	"Shadow Blade (invis)": {
+		"attack speed": 30,
+		"damage": 22,
+		"move speed percent boost": "20%"
+	},
+	"Shadow Blade (exiting invis)": {
+		"attack speed": 30,
+		"damage": 22,
+		"physical burst": 175
+	},
+	"Ethereal Blade": {
+		"strength": 10,
+		"agility": 40,
+		"intelligence": 10
+	},
+	"Ethereal Blade (active used by ally)": {
+		"is ethereal": True,
+		"magic resist": "-40%"
+	},
+	"Ethereal Blade (active used on enemy)": {
+		"target ethereal": True,
+		"magic resist": "-40%"
+	},
+	"Ethereal Blade (active used by enemy)": {
+		"is ethereal": True,
+		"magic resist": "-40%"
+	},
+	"Silver Edge": {
+		"strength": 15,
+		"agility": 15,
+		"intelligence": 15,
+		"attack speed": 30,
+		"damage": 30
+	},
+	"Silver Edge (invis)": {
+		"strength": 15,
+		"agility": 15,
+		"intelligence": 15,
+		"attack speed": 30,
+		"damage": 30,
+		"move speed percent boost": "25%"
+	},
+	"Silver Edge (exiting invis)": {
+		"strength": 15,
+		"agility": 15,
+		"intelligence": 15,
+		"attack speed": 30,
+		"damage": 30,
+		"physical burst": 175
+	},
+
+	#Artifacts
+	"Mask of Madness": {
+		"attack speed": 10,
+		"damage": 10,
+		"lifesteal": "20%"
+	},
+	"Mask of Madness (active used)": {
+		"attack speed": 120,
+		"move speed": 25,
+		"armor": -8,
+		"damage": 10,
+		"lifesteal": "20%"
+	},
+	"Sange": {
+		"strength": 16,
+		"damage": 8,
+		"status resistance": "12%"
+	},
+	"Yasha": {
+		"agility": 16,
+		"attack speed": 8,
+		"move speed": 20
+	},
+	"Kaya": {
+		"intelligence": 16,
+		"spell amp": "8%",
+		"mana loss reduction": "12%"
+	},
+	"Sange and Yasha": {
+		"strength": 16,
+		"damage": 12,
+		"status resistance": "16%",
+		"agility": 16,
+		"attack speed": 16,
+		"move speed": 30
+	},
+	"Yasha and Kaya": {
+		"agility": 16,
+		"attack speed": 16,
+		"move speed": 30,
+		"intelligence": 16,
+		"spell amp": "12%",
+		"mana loss reduction": "16%"
+	},
+	"Kaya and Sange": {
+		"strength": 16,
+		"damage": 8,
+		"status resistance": "16%",
+		"intelligence": 16,
+		"spell amp": "12%",
+		"mana loss reduction": "16%"
+	},
+	"Diffusal Blade": {
+		"agility": 20,
+		"intelligence": 10
+	},
+	"Diffusal Blade (with mana break)": {
+		"agility": 20,
+		"intelligence": 10,
+		"mana break": 40
+	},
+	"Mjollnir": {
+		"attack speed": 75,
+		"damage": 24,
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 170,
+				"proc damage type": "magical"
+			}
+	},
+	"Mjollnir (static charge triggered)": {
+		"attack speed": 75,
+		"damage": 24,
+		"magic burst": 200, 
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 170,
+				"proc damage type": "magical"
+			}
+	},
+	"Mjollnir (zero procs)": {
+		"attack speed": 75,
+		"damage": 24
+	},
+	"Helm of the Dominator": {
+		"strength": 2,
+		"agility": 2,
+		"intelligence": 2,
+		"attack speed": 20, #aura works on self
+		"health regen": 8.5 #aura works on self
+	},
+	"Helm of the Dominator (aura from ally)": {
+		"attack speed": 20,
+		"health regen": 8.5
+	},
+	"Heaven's Halberd": {
+		"strength": 20,
+		"damage": 25,
+		"evasion": "25%",
+		"status resistance": "14%",
+	},
+	"Dragon Lance": {
+		"strength": 12,
+		"agility": 12,
+		"attack range": 140
+	},
+	"Echo Sabre": {
+		"strength": 12,
+		"intelligence": 10,
+		"attack speed": 10,
+		"mana regen": 1.25,
+		"damage": 12
+	},
+	"Desolator": {
+		"damage": 50,
+		"armor of target": -7
+	},
+	"Satanic": {
+		"strength": 25,
+		"damage": 25,
+		"status resistance": "30%",
+		"lifesteal": "25%"
+	},
+	"Satanic (with Unholy Rage)": {
+		"strength": 25,
+		"damage": 25,
+		"status resistance": "30%",
+		"lifesteal": "200%"
+	},
+	"Maelstrom": {
+		"damage": 24,
+		"conditional proc": 
+			{
+				"proc chance": "25%",
+				"proc damage": 160,
+				"proc damage type": "magical"
+			}
+	},
+	"Maelstrom (zero procs)": {
+		"damage": 24
+	},
+	"Eye of Skadi": {
+		"strength": 25,
+		"agility": 25,
+		"intelligence": 25,
+		"health": 225,
+		"mana": 250
+	}
+}

@@ -5,9 +5,9 @@ class DamageBlock():
 	#TODO logic for probability table with the procs
 
 	def __init__(self, block_amount, block_chance):
-		assert isinstance(block_amount, int)
+		assert isinstance(block_amount, int) or isinstance(block_amount, float)
 		assert isinstance(block_chance, Percentage)
-		self.block_amount = block_amount
+		self.block_amount = round(block_amount)
 		self.block_chance = block_chance
 
 	def get_block_amount(self):

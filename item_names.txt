@@ -1,0 +1,211 @@
+Iron Branch
+Circlet
+Robe of the Magi
+Gauntlets of Strength
+Band of Elvenskin
+Blade of Alacrity
+Mantle of Intelligence
+Belt of Strength
+Ogre Axe
+Slippers of Agility
+Crown
+Staff of Wizardry
+Ring of Protection
+Quarterstaff
+Claymore
+Blight Stone
+Helm of Iron Will
+Mithril Hammer
+Stout Shield
+Blades of Attack
+Javelin
+Javelin (zero procs)
+Chainmail
+Broadsword
+Boots of Speed
+Ring of Health
+Shadow Amulet
+Wind Lace
+Gloves of Haste
+Void Stone
+Ghost Sceptre
+Ghost Sceptre (active used)
+Ring of Regen
+Cloak
+Sage's Mask
+Ring of Tarrasque
+Morbid Mask
+Energy Booster
+Vitality Booster
+Point Booster
+Platemail
+Talisman of Evasion
+Hyperstone
+Ultimate Orb
+Demon Edge
+Mystic Staff
+Reaver
+Eaglesong
+Sacred Relic
+Magic Wand
+Soul Ring
+Phase Boots (melee)
+Phase Boots (ranged)
+Phase Boots with active (melee)
+Phase Boots with active (ranged)
+Boots of Travel 1
+Boots of Travel 2
+Bracer
+Wraith Band
+Null Talisman
+Power Treads (Strength)
+Power Treads (Agility)
+Power Treads (Intelligence)
+Oblivion Staff
+Moon Shard
+Moon Shard (consumed)
+Perseverance
+Hand of Midas
+Ring of Basilius
+Tranquil Boots (active)
+Tranquil Boots (not active)
+Vladmir's Offering (melee)
+Vladmir's Offering (ranged)
+Pipe of Insight
+Pipe of Insight (aura from ally)
+Pipe of Insight magic barrier
+Medallion of Courage
+Medallion of Courage (cast on other hero)
+Medallion of Courage (Cast by ally)
+Medallion of Courage (Cast by enemy)
+Headress
+Headress (aura from ally)
+Buckler
+Buckler (active cast by ally)
+Mekansm
+Mekansm (aura from ally)
+Mekansm (active aura from ally)
+Guardian Greaves
+Guardian Greaves (aura from ally)
+Guardian Greaves (hero below 20% HP & aura from ally)
+Arcane Boots
+Holy Locket
+Drum of Endurance
+Drum of Endurance (active cast by ally)
+Urn of Shadows
+Urn of Shadows (tick from ally)
+Urn of Shadows (tick from enemy)
+Spirit Vessel
+Spirit Vessel (tick from ally)
+Spirit Vessel (tick from enemy) 
+Necronomicon 1
+Necronomicon 2
+Necronomicon 3
+Dagon 1
+Dagon 2
+Dagon 3
+Dagon 4
+Dagon 5
+Dagon 1 (burst used)
+Dagon 2 (burst used)
+Dagon 3 (burst used)
+Dagon 4 (burst used)
+Dagon 5 (burst used)
+Glimmer Cape
+Glimmer Cape (active used on self)
+Glimmer Cape (active used by ally)
+Aghanim's Scepter
+Veil of Discord
+Veil of Discord (active used by enemy)
+Solar Crest
+Solar Crest (cast on another)
+Solar Crest (cast by ally)
+Solar Crest (cast by enemy)
+Nullifier
+Scythe of Vyse
+Force Staff
+Eul's Scepter of Divinity
+Octarine Core
+Aether Lens
+Rod of Atos
+Orchid Malevolence
+Refresher Orb
+Hood of Defiance
+Hood of Defiance magic barrier
+Aeon Disk
+Aeon Disk (Combo Breaker triggered)
+Hurricane Pike
+Linken's Sphere
+Vanguard
+Crimson Guard
+Manta Style
+Heart of Tarrasque
+Heart of Tarrasque (passive regen)
+Blade Mail
+Lotus Orb
+Shiva's Guard
+Shiva's Guard (active used)
+Shiva's Guard (aura from enemy)
+Assault Cuirass
+Assault Cuirass (Aura from ally)
+Assault Cuirass (Aura from enemy)
+Soul Booster
+Black King Bar
+Black King Bar (active used)
+Bloodstone
+Crystalys
+Skull Basher (melee)
+Skull Basher (ranged)
+Skull Basher (zero procs)
+Radiance
+Radiance (with miss chance)
+Radiance (with miss chance and burn on enemy)
+Radiance (with miss chance from ally)
+Radiance (burn damage from enemy)
+Divine Rapier
+Armlet of Mordiggian
+Armlet of Mordiggian (toggled on)
+Monkey King Bar
+Monkey King Bar (zero procs)
+Daedalus
+Abyssal Blade (melee)
+Abyssal Blade (ranged)
+Abyssal Blade (zero procs)
+Meteor Hammer
+Battlefury
+Butterfly
+Bloodthorn
+Shadow Blade
+Shadow Blade (invis)
+Shadow Blade (exiting invis)
+Ethereal Blade
+Ethereal Blade (active used by ally)
+Ethereal Blade (active used on enemy)
+Ethereal Blade (active used by enemy)
+Silver Edge
+Silver Edge (invis)
+Silver Edge (exiting invis)
+Mask of Madness
+Mask of Madness (active used)
+Sange
+Yasha
+Kaya
+Sange and Yasha
+Yasha and Kaya
+Kaya and Sange
+Diffusal Blade
+Diffusal Blade (with mana break)
+Mjollnir
+Mjollnir (static charge triggered)
+Mjollnir (zero procs)
+Helm of the Dominator
+Helm of the Dominator (aura from ally)
+Heaven's Halberd
+Dragon Lance
+Echo Sabre
+Desolator
+Satanic
+Satanic (with Unholy Rage)
+Maelstrom
+Maelstrom (zero procs)
+Eye of Skadi

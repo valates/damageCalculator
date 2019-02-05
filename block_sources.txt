@@ -1,0 +1,13 @@
+Abyssal Blade (melee)
+Abyssal Blade (ranged)
+Crimson Guard passive (melee)
+Crimson Guard passive (ranged)
+Kraken Shell level 1
+Kraken Shell level 2
+Kraken Shell level 3
+Kraken Shell level 4
+Crimson Guard active
+Stout Shield (melee)
+Stout Shield (ranged)
+Vanguard (melee)
+Vanguard (ranged)

@@ -117,7 +117,7 @@ def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attac
 	assert isinstance(attacker_flat_bonuses, list)
 	assert isinstance(attacker_crit_sources, list)
 	assert isinstance(defender_block_sources, list)
-	assert isinstance(defender_armor, int)
+	assert isinstance(defender_armor, int) or isinstance(defender_armor, float)
 	assert isinstance(general_damage_multipliers, list)
 
 	damage_source_sum = 0
@@ -143,8 +143,10 @@ def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attac
 	if len(defender_block_sources) > 0:	
 		physical_damage -= defender_block_sources[0].get_expected_damage_block() #Placeholder, makes no sense in multi block scenarios
 
+	physical_damage = 0 if physical_damage < 0 else physical_damage #Verified in game that when damage block > damage of attacker it sets to 0
+
 	#Multiply by armor factor
-	physical_damage *= get_armor_damage_multiplier(defender_armor)
+	physical_damage *= get_armor_damage_multiplier(round(defender_armor))
 
 	#Factor in general damage multipliers
 	for damage_multiplier in general_damage_multipliers:
