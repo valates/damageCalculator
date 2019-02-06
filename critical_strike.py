@@ -13,9 +13,9 @@ class CriticalStrike(AttackModifier):
 		return [self.crit_chance, self.crit_damage]
 
 	def get_average_dps_increase(self):
-		return self.crit_chance.get_percentage_multiple() * self.crit_multiplier.get_percentage_multiple()
+		return 1 + self.crit_chance.get_percentage_multiple() * (self.crit_multiplier.get_percentage_multiple() - 1)
 
 	def get_specified_dps_increase(self, proc_percentage):
 		assert isinstance(proc_percentage, Percentage)
-		return proc_percentage.get_percentage_multiple() * self.crit_multiplier.get_percentage_multiple()
+		return 1 + proc_percentage.get_percentage_multiple() * (self.crit_multiplier.get_percentage_multiple() - 1)
 		

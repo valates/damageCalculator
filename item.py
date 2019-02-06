@@ -57,3 +57,6 @@ class Item():
 
 	def get_intelligence(self):
 		return self.intelligence
+
+	def get_armor_of_target(self):
+		return self.armor_of_target

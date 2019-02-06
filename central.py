@@ -289,6 +289,7 @@ class Central(tkinter.Frame):
             attacker_crit_sources.append(CriticalStrike(Percentage(crit_source["crit chance"]), Percentage(crit_source["crit multiplier"])))
             print("\nAttacker boosted by crit source " + self.attacker_crit_var.get())
 
+
         defender_block_sources = []
         if self.defender_block_var.get() != Central.DEFENDER_BLOCK_SOURCE_DEFAULT:
             with open("block_source_metadata", "r") as f:
@@ -306,6 +307,9 @@ class Central(tkinter.Frame):
             defender_armor += item.get_armor()
             defender_armor += item.get_strength()
             defender_magic_resistances.append(item.get_magic_resistance())
+
+        for item in attacker_items:
+            defender_armor += item.get_armor_of_target()
 
         general_damage_multipliers = self.generate_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
