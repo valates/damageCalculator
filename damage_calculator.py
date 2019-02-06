@@ -23,8 +23,8 @@ from percentage_damage_bonus import PercentageDamageBonus
 from critical_strike import CriticalStrike
 
 def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
-							defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances,
-							defender_spell_shield_quantities, general_damage_multipliers, target_is_ethereal=False):
+							defender_block_sources, defender_armor, defender_evasion_quantities, defender_base_magic_resistance, defender_strength, 
+							defender_magic_resistances, defender_spell_shield_quantities, general_damage_multipliers, target_is_ethereal=False):
 	"""
 	>>> pure_damage = PureDamage(5000)
 	>>> damages = [pure_damage]
@@ -43,6 +43,7 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 																		attacker_crit_sources,
 																		defender_block_sources, 
 																		defender_armor, 
+																		defender_evasion_quantities,
 																		general_damage_multipliers)
 	else: 
 		phyical_damage_after_multipliers = 0
@@ -68,7 +69,7 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 
 def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, 
 							attacker_crit_sources, defender_block_sources, defender_armor,
-							general_damage_multipliers):
+							defender_evasion_quantities, general_damage_multipliers):
 	"""
 	>>> damage1 = PhysicalDamage(49)
 	>>> damage2 = PhysicalDamage(51)
@@ -155,7 +156,12 @@ def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attac
 		if isinstance(damage_multiplier, Percentage):
 			physical_damage *= damage_multiplier.get_percentage_multiple()
 
-	return round(physical_damage)
+	evasion_stacking_result = 1
+	for evasion_source in defender_evasion_quantities:
+		evasion_stacking_result *= (1 - evasion_source.get_percentage_multiple())
+
+	#Rather than speculating on odds of missing, we use expected values to use evasion with our damage
+	return round(physical_damage * evasion_stacking_result)
 
 def calculate_magical_damage(damage_sources, attacker_spell_amp_sources, defender_base_magic_resistance, 
 								defender_strength, defender_magic_resistances, 

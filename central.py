@@ -320,8 +320,9 @@ class Central(tkinter.Frame):
         defender_base_magic_resistance = defender_hero.get_base_magic_resistance()
         defender_strength = defender_hero.get_strength() + defender_hero.get_strength_gain() * (defender_level - 1)
         defender_magic_resistances = []
-
         defender_spell_shield_quantities = []
+        defender_evasion_quantities = []
+
 
         party_is_ethereal = False
         for item in defender_items:
@@ -331,6 +332,7 @@ class Central(tkinter.Frame):
             defender_magic_resistances.append(item.get_magic_resistance())
             party_is_ethereal = party_is_ethereal or item.get_is_ethereal()
             defender_spell_shield_quantities.append(item.get_magic_barrier())
+            defender_evasion_quantities.append(item.get_evasion())
 
         for item in attacker_items:
             defender_armor += item.get_armor_of_target()
@@ -344,7 +346,7 @@ class Central(tkinter.Frame):
         if not party_is_ethereal:
             for item in attacker_items:
                 damage_sources.append(item.get_manabreak())
-                #Conditional proc damage here
+                damage_sources.append(item.get_conditional_proc().get_conditional_expected_damage_instance())
         else:
             damage_sources = [damage_source for damage_source in damage_sources if not isinstance(damage_source, PhysicalDamage)]
             attacker_flat_bonuses = []
@@ -352,7 +354,7 @@ class Central(tkinter.Frame):
         general_damage_multipliers = self.generate_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
         total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
-                            defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances, defender_spell_shield_quantities,
+                            defender_block_sources, defender_armor, defender_evasion_quantities, defender_base_magic_resistance, defender_strength, defender_magic_resistances, defender_spell_shield_quantities,
                             general_damage_multipliers, party_is_ethereal)
         print("\nTotal damage from attacker to defender: " + str(total_damage))
 

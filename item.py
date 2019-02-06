@@ -1,6 +1,7 @@
 from percentage import Percentage
 from critical_strike import CriticalStrike
 from manabreak import Manabreak
+from conditional_proc import ConditionalProc
 
 class Item():
 
@@ -9,7 +10,7 @@ class Item():
 		self.damage = item_metadata["damage"] if "damage" in item_metadata else 0
 		self.health = 0
 		self.mana = 0
-		self.evasion = Percentage("0")
+		self.evasion = Percentage((item_metadata["evasion"] if "evasion" in item_metadata else "0"))
 		self.attack_speed = item_metadata["attack speed"] if "attack speed" in item_metadata else 0
 		self.strength = item_metadata["strength"] if "strength" in item_metadata else 0
 		self.agility = item_metadata["agility"] if "agility" in item_metadata else 0
@@ -39,7 +40,11 @@ class Item():
 		self.manabreak = Manabreak((item_metadata["manabreak"] if "manabreak" in item_metadata else 0))
 		self.is_ethereal = item_metadata["is ethereal"] if "is ethereal" in item_metadata else False
 		self.target_ethereal = item_metadata["target ethereal"] if "target ethereal" in item_metadata else False
-		self.conditional_proc = None #TODO CONDITIONAL PROC OBJECT
+		if "conditional proc" in item_metadata:
+			conditional_data = item_metadata["conditional proc"]
+			self.conditional_proc = ConditionalProc(conditional_data["proc damage"], Percentage(conditional_data["proc chance"]), conditional_data["proc damage type"])
+		else:
+			self.conditional_proc = ConditionalProc(0, Percentage("0"), "physical")
 		self.target_magic_resist = Percentage((item_metadata["target magic resist"] if "target magic resist" in item_metadata else "0"))
 
 	def get_armor(self):
@@ -86,3 +91,9 @@ class Item():
 
 	def get_spell_amp(self):
 		return self.spell_amp
+
+	def get_evasion(self):
+		return self.evasion
+
+	def get_conditional_proc(self):
+		return self.conditional_proc
