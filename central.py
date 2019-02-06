@@ -9,7 +9,8 @@ from critical_strike import CriticalStrike
 from percentage import Percentage
 from flat_damage_bonus import FlatDamageBonus
 from percentage_damage_bonus import PercentageDamageBonus
-
+from magical_damage import MagicalDamage
+from physical_damage import PhysicalDamage
 
 #TODO print in window
 #TODO print queued previous with data of situation
@@ -30,6 +31,7 @@ class Central(tkinter.Frame):
     GENERAL_DAMAGE_MULTIPLIER_DEFAULT = "Enter general damage multipliers as percentage values separated by commas (eg: Bristleback, Bloodrage)"
 
     AGILITY_TO_ARMOR_CONVERSION_FACTOR = 0.16
+    INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR = 0.07
 
     def __init__(self, master):
         tkinter.Frame.__init__(self,
@@ -252,22 +254,30 @@ class Central(tkinter.Frame):
             if item_name in all_item_metadata:
                 defender_items.append(Item(all_item_metadata[item_name]))
 
-        damage_sources = [] #Reformulate
-        attacker_hero_damage = attacker_hero.get_expected_attack_damage()
+        damage_sources = []
+        attacker_spell_amp_sources = []
+        attacker_base_damage = attacker_hero.get_expected_attack_damage()
         attacker_primary_attr = attacker_hero.get_primary_attr()
+
+        attacker_str_gain = (attacker_hero.get_strength_gain() * (attacker_level - 1))
+        attacker_agi_gain = (attacker_hero.get_agility_gain() * (attacker_level - 1))
+        attacker_int_gain = (attacker_hero.get_intelligence_gain() * (attacker_level - 1))
+        for item in attacker_items:
+            attacker_str_gain += item.get_strength()
+            attacker_agi_gain += item.get_agility()
+            attacker_int_gain += item.get_intelligence()
+
+        damage_from_primary_stat = 0
         if attacker_primary_attr == "STR":
-            attacker_hero_damage += (attacker_hero.get_strength_gain() * (attacker_level - 1))
-            for item in attacker_items:
-                attacker_hero_damage += item.get_strength()
+            damage_from_primary_stat = attacker_str_gain
         elif attacker_primary_attr == "AGI":
-            attacker_hero_damage += (attacker_hero.get_agility_gain() * (attacker_level - 1))
-            for item in attacker_items:
-                attacker_hero_damage += item.get_agility()
+            damage_from_primary_stat = attacker_agi_gain
         elif attacker_primary_attr == "INT":
-            attacker_hero_damage += (attacker_hero.get_intelligence_gain() * (attacker_level - 1))
-            for item in attacker_items:
-                attacker_hero_damage += item.get_intelligence()
-        damage_sources.append(PhysicalDamage(attacker_hero_damage))
+            damage_from_primary_stat = attacker_int_gain
+        damage_sources.append(PhysicalDamage(attacker_base_damage + damage_from_primary_stat))
+
+        attacker_total_int = attacker_int_gain + attacker_hero.get_intelligence()
+        attacker_spell_amp_sources.append(Percentage(str((attacker_total_int * Central.INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR))))
 
         percentages_to_create_bonuses = self.generate_list_of_values(self.attacker_percent_var.get(), Central.ATTACKER_PERCENT_BONUS_DEFAULT)
         attacker_percentage_bonuses = [PercentageDamageBonus(percentage_bonus) for percentage_bonus in percentages_to_create_bonuses if percentage_bonus is not None] #percentage bonus is None when bad input is encountered
@@ -283,7 +293,6 @@ class Central(tkinter.Frame):
             attacker_crit_sources.append(CriticalStrike(Percentage(crit_source["crit chance"]), Percentage(crit_source["crit multiplier"])))
             print("\nAttacker boosted by crit source " + self.attacker_crit_var.get())
 
-
         defender_block_sources = []
         if self.defender_block_var.get() != Central.DEFENDER_BLOCK_SOURCE_DEFAULT:
             with open("block_source_metadata", "r") as f:
@@ -297,6 +306,8 @@ class Central(tkinter.Frame):
         defender_strength = defender_hero.get_strength() + defender_hero.get_strength_gain() * (defender_level - 1)
         defender_magic_resistances = []
 
+        defender_spell_shield_quantities = []
+
         defender_is_ethereal = False
         for item in defender_items:
             defender_armor += (item.get_agility() * Central.AGILITY_TO_ARMOR_CONVERSION_FACTOR)
@@ -304,6 +315,7 @@ class Central(tkinter.Frame):
             defender_armor += item.get_strength()
             defender_magic_resistances.append(item.get_magic_resistance())
             defender_is_ethereal = defender_is_ethereal or item.get_is_ethereal()
+            defender_spell_shield_quantities.append(item.get_magic_barrier())
 
         for item in attacker_items:
             defender_armor += item.get_armor_of_target()
@@ -311,11 +323,14 @@ class Central(tkinter.Frame):
             damage_sources.append(item.get_manabreak())
             defender_is_ethereal = defender_is_ethereal or item.get_target_ethereal()
             defender_magic_resistances.append(item.get_target_magic_resist())
+            attacker_spell_amp_sources.append(item.get_spell_amp())
+            damage_sources.append(MagicalDamage(item.get_magic_burst()))
+            damage_sources.append(PhysicalDamage(item.get_physical_burst()))
 
         general_damage_multipliers = self.generate_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
-        total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, 
-                            defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances,
+        total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
+                            defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances, defender_spell_shield_quantities,
                             general_damage_multipliers, defender_is_ethereal)
         print("\nTotal damage from attacker to defender: " + str(total_damage))
 

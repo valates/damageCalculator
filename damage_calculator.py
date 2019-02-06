@@ -22,9 +22,9 @@ from flat_damage_bonus import FlatDamageBonus
 from percentage_damage_bonus import PercentageDamageBonus
 from critical_strike import CriticalStrike
 
-def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, 
+def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
 							defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances,
-							general_damage_multipliers, target_is_ethereal=False):
+							defender_spell_shield_quantities, general_damage_multipliers, target_is_ethereal=False):
 	"""
 	>>> pure_damage = PureDamage(5000)
 	>>> damages = [pure_damage]
@@ -50,9 +50,11 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 	magical_damages = [damage_source for damage_source in damage_sources if isinstance(damage_source, MagicalDamage)]
 	if len(magical_damages) > 0:
 		magical_damage_after_multipliers = calculate_magical_damage(magical_damages,
+																		attacker_spell_amp_sources,
 																		defender_base_magic_resistance, 
 																		defender_strength,
-																		defender_magic_resistances)
+																		defender_magic_resistances,
+																		defender_spell_shield_quantities)
 	else:
 		magical_damage_after_multipliers = 0
 
@@ -155,8 +157,9 @@ def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attac
 
 	return round(physical_damage)
 
-def calculate_magical_damage(damage_sources, defender_base_magic_resistance, 
-								defender_strength, defender_magic_resistances):
+def calculate_magical_damage(damage_sources, attacker_spell_amp_sources, defender_base_magic_resistance, 
+								defender_strength, defender_magic_resistances, 
+								defender_spell_shield_quantities):
 	"""
 	>>> magical_damage1 = MagicalDamage(49)
 	>>> magical_damage2 = MagicalDamage(51)
@@ -180,6 +183,18 @@ def calculate_magical_damage(damage_sources, defender_base_magic_resistance,
 	magic_damage = 0
 	for damage_source in damage_sources:
 		magic_damage += damage_source.get_damage_quantity()
+
+	spell_amp_multiplier_sum = 1
+	for spell_amp in attacker_spell_amp_sources:
+		spell_amp_multiplier_sum += spell_amp.get_percentage_multiple()
+
+	magic_damage *= spell_amp_multiplier_sum
+
+	for spell_shield in defender_spell_shield_quantities:
+		magic_damage -= spell_shield
+
+	if magic_damage < 0:
+		magic_damage = 0
 
 	return round(magic_damage * (1 - get_total_magic_resistance(defender_base_magic_resistance,
 																defender_strength,

@@ -21,7 +21,7 @@ class Item():
 		self.magic_resistance = Percentage(item_metadata["magic resist"]) if "magic resist" in item_metadata else Percentage("0")
 		self.lifesteal = Percentage("0")
 		self.armor_of_target = item_metadata["armor of target"] if "armor of target" in item_metadata else 0
-		self.spell_amp = Percentage("0")
+		self.spell_amp = Percentage((item_metadata["spell amp"] if "spell amp" in item_metadata else "0"))
 		self.lifesteal = Percentage("0")
 		self.healing_boost = Percentage("0")
 		self.health_regen_boost = Percentage("0")
@@ -32,10 +32,10 @@ class Item():
 		self.mana_loss_reduction = Percentage("0")
 		self.spell_lifesteal = Percentage("0")
 		self.cast_range_extension = 0
-		self.magic_barrier = 0
-		self.magic_burst = 0
+		self.magic_barrier = item_metadata["magic barrier"] if "magic barrier" in item_metadata else 0
+		self.magic_burst = item_metadata["magic burst"] if "magic burst" in item_metadata else 0
 		self.max_health_change_per_second = Percentage("0")
-		self.physical_burst = 0
+		self.physical_burst = item_metadata["physical burst"] if "physical burst" in item_metadata else 0
 		self.manabreak = Manabreak((item_metadata["manabreak"] if "manabreak" in item_metadata else 0))
 		self.is_ethereal = item_metadata["is ethereal"] if "is ethereal" in item_metadata else False
 		self.target_ethereal = item_metadata["target ethereal"] if "target ethereal" in item_metadata else False
@@ -74,3 +74,15 @@ class Item():
 
 	def get_target_magic_resist(self):
 		return self.target_magic_resist
+
+	def get_magic_burst(self):
+		return self.magic_burst
+
+	def get_physical_burst(self):
+		return self.physical_burst
+		
+	def get_magic_barrier(self):
+		return self.magic_barrier
+
+	def get_spell_amp(self):
+		return self.spell_amp
