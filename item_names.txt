@@ -72,8 +72,10 @@ Tranquil Boots (not active)
 Vladmir's Offering (melee)
 Vladmir's Offering (ranged)
 Pipe of Insight
+Pipe of Insight (magic barrier from self)
 Pipe of Insight (aura from ally)
-Pipe of Insight magic barrier
+Pipe of Insight (magic barrier from ally, no aura)
+Pipe of Insight (magic barrier from ally, aura)
 Medallion of Courage
 Medallion of Courage (cast on other hero)
 Medallion of Courage (Cast by ally)
@@ -194,7 +196,7 @@ Sange and Yasha
 Yasha and Kaya
 Kaya and Sange
 Diffusal Blade
-Diffusal Blade (with mana break)
+Diffusal Blade (with manabreak)
 Mjollnir
 Mjollnir (static charge triggered)
 Mjollnir (zero procs)

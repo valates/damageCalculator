@@ -32,6 +32,8 @@ class Central(tkinter.Frame):
 
     AGILITY_TO_ARMOR_CONVERSION_FACTOR = 0.16
     INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR = 0.07
+    ETHEREAL_BLADE_DAMAGE_MULTIPLIER = Percentage("200%")
+    ETHEREAL_BLADE_USED_INDICATOR = ["Ethereal Blade (active used on enemy)", "Ethereal Blade (active used by enemy)"]
 
     def __init__(self, master):
         tkinter.Frame.__init__(self,
@@ -240,10 +242,13 @@ class Central(tkinter.Frame):
         with open("item_metadata", "r") as f:
             all_item_metadata = ast.literal_eval(f.read())
 
+
+        ethereal_used_offensively = False
         attacker_items = []
         for item in [self.attacker_item1_choice, self.attacker_item2_choice, self.attacker_item3_choice,
                         self.attacker_item4_choice, self.attacker_item5_choice, self.attacker_item6_choice]:
             item_name = item.get()
+            ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[0] == item_name)
             if item_name in all_item_metadata:
                 attacker_items.append(Item(all_item_metadata[item_name]))
 
@@ -251,6 +256,7 @@ class Central(tkinter.Frame):
         for item in [self.defender_item1_choice, self.defender_item2_choice, self.defender_item3_choice,
                         self.defender_item4_choice, self.defender_item5_choice, self.defender_item6_choice]:
             item_name = item.get()
+            ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[1] == item_name)
             if item_name in all_item_metadata:
                 defender_items.append(Item(all_item_metadata[item_name]))
 
@@ -267,14 +273,23 @@ class Central(tkinter.Frame):
             attacker_agi_gain += item.get_agility()
             attacker_int_gain += item.get_intelligence()
 
+        ethereal_blade_damage = 0
         damage_from_primary_stat = 0
         if attacker_primary_attr == "STR":
             damage_from_primary_stat = attacker_str_gain
+            ethereal_blade_damage = attacker_hero.get_strength()
         elif attacker_primary_attr == "AGI":
             damage_from_primary_stat = attacker_agi_gain
+            ethereal_blade_damage = attacker_hero.get_agility()
         elif attacker_primary_attr == "INT":
             damage_from_primary_stat = attacker_int_gain
-        damage_sources.append(PhysicalDamage(attacker_base_damage + damage_from_primary_stat))
+            ethereal_blade_damage = attacker_hero.get_intelligence()
+        ethereal_blade_damage += damage_from_primary_stat
+        ethereal_blade_damage *= Central.ETHEREAL_BLADE_DAMAGE_MULTIPLIER.get_percentage_multiple()
+        if ethereal_used_offensively:
+            damage_sources.append(MagicalDamage(ethereal_blade_damage))
+        else:
+            damage_sources.append(PhysicalDamage(attacker_base_damage + damage_from_primary_stat))
 
         attacker_total_int = attacker_int_gain + attacker_hero.get_intelligence()
         attacker_spell_amp_sources.append(Percentage(str((attacker_total_int * Central.INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR))))
@@ -308,30 +323,37 @@ class Central(tkinter.Frame):
 
         defender_spell_shield_quantities = []
 
-        defender_is_ethereal = False
+        party_is_ethereal = False
         for item in defender_items:
             defender_armor += (item.get_agility() * Central.AGILITY_TO_ARMOR_CONVERSION_FACTOR)
             defender_armor += item.get_armor()
             defender_armor += item.get_strength()
             defender_magic_resistances.append(item.get_magic_resistance())
-            defender_is_ethereal = defender_is_ethereal or item.get_is_ethereal()
+            party_is_ethereal = party_is_ethereal or item.get_is_ethereal()
             defender_spell_shield_quantities.append(item.get_magic_barrier())
 
         for item in attacker_items:
             defender_armor += item.get_armor_of_target()
             attacker_flat_bonuses.append(FlatDamageBonus(item.get_damage()))
-            damage_sources.append(item.get_manabreak())
-            defender_is_ethereal = defender_is_ethereal or item.get_target_ethereal()
+            party_is_ethereal = party_is_ethereal or item.get_target_ethereal()
             defender_magic_resistances.append(item.get_target_magic_resist())
             attacker_spell_amp_sources.append(item.get_spell_amp())
             damage_sources.append(MagicalDamage(item.get_magic_burst()))
             damage_sources.append(PhysicalDamage(item.get_physical_burst()))
 
+        if not party_is_ethereal:
+            for item in attacker_items:
+                damage_sources.append(item.get_manabreak())
+                #Conditional proc damage here
+        else:
+            damage_sources = [damage_source for damage_source in damage_sources if not isinstance(damage_source, PhysicalDamage)]
+            attacker_flat_bonuses = []
+
         general_damage_multipliers = self.generate_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
         total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
                             defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances, defender_spell_shield_quantities,
-                            general_damage_multipliers, defender_is_ethereal)
+                            general_damage_multipliers, party_is_ethereal)
         print("\nTotal damage from attacker to defender: " + str(total_damage))
 
     def generate_list_of_values(self, value_string, default_string, generate_percentage=True):
