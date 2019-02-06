@@ -24,7 +24,7 @@ from critical_strike import CriticalStrike
 
 def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, 
 							defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances,
-							general_damage_multipliers):
+							general_damage_multipliers, target_is_ethereal=False):
 	"""
 	>>> pure_damage = PureDamage(5000)
 	>>> damages = [pure_damage]
@@ -36,7 +36,7 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 
 
 	physical_damages = [damage_source for damage_source in damage_sources if isinstance(damage_source, PhysicalDamage)]
-	if len(physical_damages) > 0:
+	if len(physical_damages) > 0 and target_is_ethereal is False:
 		phyical_damage_after_multipliers = calculate_physical_damage(physical_damages,
 																		attacker_percentage_bonuses, 
 																		attacker_flat_bonuses, 

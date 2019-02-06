@@ -1,15 +1,11 @@
 from attack_modifier import AttackModifier
+from magical_damage import MagicalDamage
 
 class Manabreak(AttackModifier):
 
-	MANABREAK_EFFECT_NAME = "manabreak"
-
-	@abstractmethod #TODO
 	def __init__(self, mana_burn):
-		self.mana_burn
+		assert isinstance(mana_burn, int) or isinstance(mana_burn, float)
+		self.mana_burn = round(mana_burn)
 
 	def get_effect(self):
-		return self.mana_burn
-
-	def get_effect_type(self):
-		return MANABREAK_EFFECT_NAME
+		return MagicalDamage(self.mana_burn)

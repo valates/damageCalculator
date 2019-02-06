@@ -10,6 +10,10 @@ from percentage import Percentage
 from flat_damage_bonus import FlatDamageBonus
 from percentage_damage_bonus import PercentageDamageBonus
 
+
+#TODO print in window
+#TODO print queued previous with data of situation
+
 class Central(tkinter.Frame):
 
     ATTACKER_SELECT_DEFAULT = "Select an attacker"
@@ -111,7 +115,6 @@ class Central(tkinter.Frame):
                                   textvariable=self.attacker_flat_var)
         self.attacker_flat_var.set(Central.ATTACKER_FLAT_BONUS_DEFAULT)
 
-
         #Defender options
         self.defender_hero = tkinter.StringVar()
         self.defender_hero.set(Central.DEFENDER_SELECT_DEFAULT)
@@ -161,8 +164,6 @@ class Central(tkinter.Frame):
                                   textvariable=self.defender_level)
         self.defender_level.set(Central.DEFENDER_LEVEL_DEFAULT)
 
-
-
         #General damage multipliers
         self.general_damage_multipliers = tkinter.StringVar()
         self.general_damage = tkinter.Entry(self,  width=92,
@@ -203,8 +204,6 @@ class Central(tkinter.Frame):
 
  
     def print_damage_sum(self):  
-        #TODO CRITS ARE BUGGED ... sometimes.......
-
         #ew. reformulate
         if self.attacker_level.get() != Central.ATTACKER_LEVEL_DEFAULT:
             attacker_level_as_int = (int) (self.attacker_level.get())  
@@ -246,15 +245,12 @@ class Central(tkinter.Frame):
             if item_name in all_item_metadata:
                 attacker_items.append(Item(all_item_metadata[item_name]))
 
-
         defender_items = []
         for item in [self.defender_item1_choice, self.defender_item2_choice, self.defender_item3_choice,
                         self.defender_item4_choice, self.defender_item5_choice, self.defender_item6_choice]:
             item_name = item.get()
             if item_name in all_item_metadata:
                 defender_items.append(Item(all_item_metadata[item_name]))
-
-
 
         damage_sources = [] #Reformulate
         attacker_hero_damage = attacker_hero.get_expected_attack_damage()
@@ -278,8 +274,6 @@ class Central(tkinter.Frame):
 
         flat_bonuses = self.generate_list_of_values(self.attacker_flat_var.get(), Central.ATTACKER_FLAT_BONUS_DEFAULT, False)
         attacker_flat_bonuses = [FlatDamageBonus(flat_bonus) for flat_bonus in flat_bonuses if flat_bonus is not None] #flat bonus is None when bad input is encountered
-        for item in attacker_items:
-            attacker_flat_bonuses.append(FlatDamageBonus(item.get_damage()))
 
         attacker_crit_sources = []
         if self.attacker_crit_var.get() != Central.ATTACKER_CRIT_SOURCE_DEFAULT:
@@ -302,20 +296,27 @@ class Central(tkinter.Frame):
         defender_base_magic_resistance = defender_hero.get_base_magic_resistance()
         defender_strength = defender_hero.get_strength() + defender_hero.get_strength_gain() * (defender_level - 1)
         defender_magic_resistances = []
+
+        defender_is_ethereal = False
         for item in defender_items:
             defender_armor += (item.get_agility() * Central.AGILITY_TO_ARMOR_CONVERSION_FACTOR)
             defender_armor += item.get_armor()
             defender_armor += item.get_strength()
             defender_magic_resistances.append(item.get_magic_resistance())
+            defender_is_ethereal = defender_is_ethereal or item.get_is_ethereal()
 
         for item in attacker_items:
             defender_armor += item.get_armor_of_target()
+            attacker_flat_bonuses.append(FlatDamageBonus(item.get_damage()))
+            damage_sources.append(item.get_manabreak())
+            defender_is_ethereal = defender_is_ethereal or item.get_target_ethereal()
+            defender_magic_resistances.append(item.get_target_magic_resist())
 
         general_damage_multipliers = self.generate_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
         total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, 
                             defender_block_sources, defender_armor, defender_base_magic_resistance, defender_strength, defender_magic_resistances,
-                            general_damage_multipliers)
+                            general_damage_multipliers, defender_is_ethereal)
         print("\nTotal damage from attacker to defender: " + str(total_damage))
 
     def generate_list_of_values(self, value_string, default_string, generate_percentage=True):

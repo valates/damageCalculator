@@ -1,5 +1,6 @@
 from percentage import Percentage
 from critical_strike import CriticalStrike
+from manabreak import Manabreak
 
 class Item():
 
@@ -35,10 +36,11 @@ class Item():
 		self.magic_burst = 0
 		self.max_health_change_per_second = Percentage("0")
 		self.physical_burst = 0
-		self.mana_break = None #TODO mana break implementation
-		self.is_ethereal = False
-		self.target_ethereal = False
+		self.manabreak = Manabreak((item_metadata["manabreak"] if "manabreak" in item_metadata else 0))
+		self.is_ethereal = item_metadata["is ethereal"] if "is ethereal" in item_metadata else False
+		self.target_ethereal = item_metadata["target ethereal"] if "target ethereal" in item_metadata else False
 		self.conditional_proc = None #TODO CONDITIONAL PROC OBJECT
+		self.target_magic_resist = Percentage((item_metadata["target magic resist"] if "target magic resist" in item_metadata else "0"))
 
 	def get_armor(self):
 		return self.armor
@@ -60,3 +62,15 @@ class Item():
 
 	def get_armor_of_target(self):
 		return self.armor_of_target
+
+	def get_manabreak(self):
+		return self.manabreak.get_effect()
+
+	def get_is_ethereal(self):
+		return self.is_ethereal
+
+	def get_target_ethereal(self):
+		return self.target_ethereal
+
+	def get_target_magic_resist(self):
+		return self.target_magic_resist
