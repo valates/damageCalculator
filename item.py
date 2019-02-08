@@ -16,7 +16,7 @@ class Item():
 		if "conditional proc" in item_metadata:
 			conditional_data = item_metadata["conditional proc"]
 			self.conditional_proc = ConditionalProc(conditional_data["proc damage"], Percentage(conditional_data["proc chance"]), conditional_data["proc damage type"])
-		else:3
+		else:
 			self.conditional_proc = ConditionalProc(0, Percentage("0"), "physical")
 		self.critical_strike = CriticalStrike(Percentage("0"), Percentage("0"))
 		self.damage = item_metadata["damage"] if "damage" in item_metadata else 0
