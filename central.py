@@ -14,18 +14,14 @@ import tkinter
 
 #TODO print in window
 #TODO print queued previous with data of situation
-#TODO fix flat damage bug
-#TODO diffusal bug for placeholder hero
-#TODO items generally not seem to do anything on placeholder heroes
-#TODO ethereal state not stopping right click damage or item damage
-
-#flat item damage not showing up
-#block doesnt work?
-#crit doesnt work
+#fix percentage damage bug
 
 class Central(tkinter.Frame):
 
-    MAX_ITEM_COUNT = 6
+    #The smallest difference of time expressed in Dota.
+    TIME_SAMPLE_INCREMENT = 0.01
+
+    MAX_ITEM_COUNT = 10
 
     PLACEHOLDER_HERO_NAME = "NONE"
 
@@ -65,6 +61,7 @@ class Central(tkinter.Frame):
         self.init_initiation_devices()
 
         self.format_buttons()
+
 
     def init_hero_choices(self):
         with open('hero_names.txt', 'r') as f:
@@ -290,10 +287,8 @@ class Central(tkinter.Frame):
         if value_string != default_string:
             values = value_string.split(",")
             for value in values:
-                print(value)
                 try:
-                    safe_value = Percentage(value) if generate_percentage else (int) (integer_string)
-                    values_returned.append(safe_value)
+                    values_returned.append((Percentage(value) if generate_percentage else int(value)))
                 except:
                     print("\nInvalid " + ("percentage" if generate_percentage else "integer") + " given: " + value + ". Skipping over value.")
         return values_returned
@@ -311,7 +306,7 @@ class Central(tkinter.Frame):
                 attacker_items.append(Item(all_item_metadata[item_name]))
 
         defender_items = []
-        for item in self.attacker_item_choices:
+        for item in self.defender_item_choices:
             item_name = item.get()
             ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[1] == item_name)
             if item_name in all_item_metadata:
@@ -328,7 +323,7 @@ class Central(tkinter.Frame):
 
     def determine_party_is_ethereal(items):
         for item in items:
-            if item.get_is_ethereal():
+            if item.get_is_ethereal() or item.get_target_ethereal():
                 return True
         return False
 

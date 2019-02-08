@@ -29,7 +29,6 @@ class Item():
 		self.intelligence = item_metadata["intelligence"] if "intelligence" in item_metadata else 0
 		self.is_ethereal = item_metadata["is ethereal"] if "is ethereal" in item_metadata else False
 		self.lifesteal = Percentage("0")
-		self.lifesteal = Percentage("0")
 		self.magic_barrier = item_metadata["magic barrier"] if "magic barrier" in item_metadata else 0
 		self.magic_burst = item_metadata["magic burst"] if "magic burst" in item_metadata else 0
 		self.magic_resistance = Percentage(item_metadata["magic resist"]) if "magic resist" in item_metadata else Percentage("0")
