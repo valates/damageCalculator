@@ -1,4 +1,8 @@
 {
+	#Empty dud item
+	"NONE": {
+	},
+
 	#Attributes
 	"Iron Branch": {
 		"strength": 1,
@@ -507,11 +511,11 @@
 		"intelligence": 30,
 		"magic burst": 800
 	},
-	"Glimmer Cape": {
+	"Glimmer Cape": { 
 		"attack speed": 20,
 		"magic resist": "15%"
 	},
-	"Glimmer Cape (active used on self)": {
+	"Glimmer Cape (active used on self)": { #TODO need to factor in latent passive magic resist somehow
 		"attack speed": 20,
 		"magic resist": "45%"
 	},

@@ -2,10 +2,7 @@ from percentage import Percentage
 
 STRENGTH_MAGIC_RESISTANCE_PERCENT_MULTIPLIER = Percentage("0.08%")
 
-#TODO 100% check
-#TODO invalid list check
-
-def get_total_magic_resistance(base_magic_resistance, strength, magic_resistances): #Check all percentages and make sure theyre below 100%. no item exists above that
+def get_total_magic_resistance(base_magic_resistance, strength, magic_resistances):
 	"""
 	>>> zero_percent = Percentage("0%")
 	>>> get_total_magic_resistance(zero_percent, 0, [])
@@ -27,8 +24,10 @@ def get_total_magic_resistance(base_magic_resistance, strength, magic_resistance
 	total_magic_resistance = (1 - base_magic_resistance.get_percentage_multiple()) * (1 - strength * STRENGTH_MAGIC_RESISTANCE_PERCENT_MULTIPLIER.get_percentage_multiple())
 	for resistance in magic_resistances:
 		#Simply no-op if the list has a non-percentage object in it
+		resistance_percentage_multiple = resistance.get_percentage_multiple()
+		assert resistance_percentage_multiple <= 1.0
 		if isinstance(resistance, Percentage):
-			total_magic_resistance *= (1 - resistance.get_percentage_multiple())
+			total_magic_resistance *= (1 - resistance_percentage_multiple)
 	#In game magic resistance is expressed as integer percentages, so we don't go beyond 2 significant digits for our multiplier
 	return round((1 - total_magic_resistance), 2)
 

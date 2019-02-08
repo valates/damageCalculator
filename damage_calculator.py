@@ -1,30 +1,34 @@
-#Certain modifiers dont benefit from things such as crit. 
-
-#How to account for variable damage? Expected + worst case + best case?
-
-#Specify that damage source can or cannot be crit multiplied?
-
 """
 Damage =
 { [Main Damage × (1 + Σ Percentage Bonuses) + Flat Bonuses]
 × Crit Multiplier - Blocked Damage }
 × Armor Multipliers
-× General Damage Multipliers #applies only in form of reducing incoming damage (bristle passive, centaur ult)
+× General Damage Multipliers (bristle passive, centaur ult)
 """
 
-from physical_damage import PhysicalDamage
-from magical_damage import MagicalDamage
-from pure_damage import PureDamage
-from percentage import Percentage
-from effective_hp import get_armor_damage_multiplier, get_total_magic_resistance
-from damage_block import DamageBlock
-from flat_damage_bonus import FlatDamageBonus
-from percentage_damage_bonus import PercentageDamageBonus
 from critical_strike import CriticalStrike
+from damage_block import DamageBlock
+from effective_hp import get_armor_damage_multiplier, get_total_magic_resistance
+from flat_damage_bonus import FlatDamageBonus
+from magical_damage import MagicalDamage
+from percentage import Percentage
+from percentage_damage_bonus import PercentageDamageBonus
+from physical_damage import PhysicalDamage
+from pure_damage import PureDamage
 
-def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
-							defender_block_sources, defender_armor, defender_evasion_quantities, defender_base_magic_resistance, defender_strength, 
-							defender_magic_resistances, defender_spell_shield_quantities, general_damage_multipliers, target_is_ethereal=False):
+def calculate_total_damage(damage_sources, 
+							attacker_percentage_bonuses, 
+							attacker_flat_bonuses, 
+							attacker_crit_sources, 
+							attacker_spell_amp_sources,
+							defender_block_sources, 
+							defender_armor, 
+							defender_evasion_quantities, 
+							defender_base_magic_resistance, 
+							defender_strength, 
+							defender_magic_resistances, 
+							defender_spell_shield_quantities, 
+							general_damage_multipliers):
 	"""
 	>>> pure_damage = PureDamage(5000)
 	>>> damages = [pure_damage]
@@ -36,7 +40,7 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 
 
 	physical_damages = [damage_source for damage_source in damage_sources if isinstance(damage_source, PhysicalDamage)]
-	if len(physical_damages) > 0 and target_is_ethereal is False:
+	if len(physical_damages) > 0:
 		phyical_damage_after_multipliers = calculate_physical_damage(physical_damages,
 																		attacker_percentage_bonuses, 
 																		attacker_flat_bonuses, 
@@ -67,9 +71,14 @@ def calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker
 	return int((phyical_damage_after_multipliers + magical_damage_after_multipliers + pure_damage))
 
 
-def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, 
-							attacker_crit_sources, defender_block_sources, defender_armor,
-							defender_evasion_quantities, general_damage_multipliers):
+def calculate_physical_damage(damage_sources, 
+								attacker_percentage_bonuses, 
+								attacker_flat_bonuses, 
+								attacker_crit_sources, 
+								defender_block_sources, 
+								defender_armor,
+								defender_evasion_quantities, 
+								general_damage_multipliers):
 	"""
 	>>> damage1 = PhysicalDamage(49)
 	>>> damage2 = PhysicalDamage(51)
@@ -163,8 +172,11 @@ def calculate_physical_damage(damage_sources, attacker_percentage_bonuses, attac
 	#Rather than speculating on odds of missing, we use expected values to use evasion with our damage
 	return round(physical_damage * evasion_stacking_result)
 
-def calculate_magical_damage(damage_sources, attacker_spell_amp_sources, defender_base_magic_resistance, 
-								defender_strength, defender_magic_resistances, 
+def calculate_magical_damage(damage_sources, 
+								attacker_spell_amp_sources, 
+								defender_base_magic_resistance, 
+								defender_strength, 
+								defender_magic_resistances, 
 								defender_spell_shield_quantities):
 	"""
 	>>> magical_damage1 = MagicalDamage(49)

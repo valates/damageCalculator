@@ -1,4 +1,6 @@
 {
+	"NONE": {
+	},
 	"Abyssal Blade (melee)": {
 		"block chance": "50%",
 		"block amount": 70

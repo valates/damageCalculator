@@ -1,21 +1,27 @@
-import tkinter
-import ast
+from critical_strike import CriticalStrike
+from damage_block import DamageBlock
+from damage_calculator import calculate_total_damage
+from flat_damage_bonus import FlatDamageBonus
 from hero import Hero
 from item import Item
-from physical_damage import PhysicalDamage
-from damage_calculator import calculate_total_damage
-from damage_block import DamageBlock
-from critical_strike import CriticalStrike
-from percentage import Percentage
-from flat_damage_bonus import FlatDamageBonus
-from percentage_damage_bonus import PercentageDamageBonus
 from magical_damage import MagicalDamage
+from percentage import Percentage
+from percentage_damage_bonus import PercentageDamageBonus
 from physical_damage import PhysicalDamage
+from physical_damage import PhysicalDamage
+import ast
+import tkinter
 
 #TODO print in window
 #TODO print queued previous with data of situation
+#TODO fix flat damage bug
+#TODO diffusal bug for placeholder hero
+#TODO items generally not seem to do anything on placeholder heroes
+#TODO ethereal state not stopping right click damage or item damage
 
 class Central(tkinter.Frame):
+
+    PLACEHOLDER_HERO_NAME = "NONE"
 
     ATTACKER_SELECT_DEFAULT = "Select an attacker"
     ATTACKER_LEVEL_DEFAULT = "Enter attacker level"
@@ -179,6 +185,10 @@ class Central(tkinter.Frame):
                                    text='Calculate',
                                    command=self.print_damage_sum)
 
+        self.format_buttons()
+
+
+    def format_buttons(self):
         #Create the buttons
         self.attacker.pack(side=tkinter.TOP, anchor="w")
         self.attacker_level_set.pack(side=tkinter.TOP, anchor="w")
@@ -221,21 +231,18 @@ class Central(tkinter.Frame):
         else:
             defender_level = 1
 
-        with open("placeholder_hero_metadata", "r") as f:
-            placeholder_hero_metadata = ast.literal_eval(f.read())
-
         with open("hero_metadata", "r") as f:
             all_hero_metadata = ast.literal_eval(f.read())
 
             if self.attacker_hero.get() in all_hero_metadata:
                 attacker_hero = Hero(all_hero_metadata[self.attacker_hero.get()])
             else:
-                attacker_hero = Hero(placeholder_hero_metadata)
+                attacker_hero = Hero(all_hero_metadata[Central.PLACEHOLDER_HERO_NAME])
 
             if self.defender_hero.get() in all_hero_metadata:
                 defender_hero = Hero(all_hero_metadata[self.defender_hero.get()])
             else:
-                defender_hero = Hero(placeholder_hero_metadata)
+                defender_hero = Hero(all_hero_metadata[Central.PLACEHOLDER_HERO_NAME])
 
         print(attacker_hero.get_hero_name() + " attacking " + defender_hero.get_hero_name() + "...")
 
@@ -342,6 +349,8 @@ class Central(tkinter.Frame):
             attacker_spell_amp_sources.append(item.get_spell_amp())
             damage_sources.append(MagicalDamage(item.get_magic_burst()))
             damage_sources.append(PhysicalDamage(item.get_physical_burst()))
+            damage_sources.append(PhysicalDamage(item.get_physical_burst()))
+            attacker_percentage_bonuses.append(item.get_damage_percentage_boost())
 
         if not party_is_ethereal:
             for item in attacker_items:
@@ -355,7 +364,7 @@ class Central(tkinter.Frame):
 
         total_damage = calculate_total_damage(damage_sources, attacker_percentage_bonuses, attacker_flat_bonuses, attacker_crit_sources, attacker_spell_amp_sources,
                             defender_block_sources, defender_armor, defender_evasion_quantities, defender_base_magic_resistance, defender_strength, defender_magic_resistances, defender_spell_shield_quantities,
-                            general_damage_multipliers, party_is_ethereal)
+                            general_damage_multipliers)
         print("\nTotal damage from attacker to defender: " + str(total_damage))
 
     def generate_list_of_values(self, value_string, default_string, generate_percentage=True):

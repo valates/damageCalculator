@@ -1,4 +1,6 @@
 {
+	"NONE": {
+	},
 	"Alpha Wolf Passive": {
 		"crit chance": "20%",
 		"crit multiplier": "200%"

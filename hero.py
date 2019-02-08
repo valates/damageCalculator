@@ -2,20 +2,20 @@ from percentage import Percentage
 
 class Hero():
 	def __init__(self, hero_metadata):
-		self.hero_name = hero_metadata["hero name"]
-		self.primary_attr = hero_metadata["primary attr"]
-		self.strength = hero_metadata["strength"]
-		self.strength_gain = hero_metadata["strength gain"]
 		self.agility = hero_metadata["agility"]
 		self.agility_gain = hero_metadata["agility gain"]
+		self.base_attack_max = hero_metadata["attack max"] #Factors in level 1 primary attribute
+		self.base_attack_min = hero_metadata["attack min"] #Factors in level 1 primary attribute
+		self.base_attack_time = hero_metadata["BAT"]
+		self.base_magic_resistance = Percentage(hero_metadata["base magic resist"])
+		self.base_regen = hero_metadata["base regen"] #DOES NOT include regen due to STR
+		self.hero_name = hero_metadata["hero name"]
 		self.intelligence = hero_metadata["intelligence"]
 		self.intelligence_gain = hero_metadata["intelligence_gain"]
+		self.primary_attr = hero_metadata["primary attr"]
 		self.starting_armor = hero_metadata["starting_armor"] #Factors in base armor AND armor gained from agility
-		self.base_attack_min = hero_metadata["attack min"] #Factors in level 1 primary attribute
-		self.base_attack_max = hero_metadata["attack max"] #Factors in level 1 primary attribute
-		self.base_regen = hero_metadata["base regen"] #DOES NOT include regen due to STR
-		self.base_magic_resistance = Percentage(hero_metadata["base magic resist"])
-		self.base_attack_time = hero_metadata["BAT"]
+		self.strength = hero_metadata["strength"]
+		self.strength_gain = hero_metadata["strength gain"]
 
 	def get_hero_name(self):
 		return self.hero_name

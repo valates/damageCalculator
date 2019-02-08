@@ -114,3 +114,7 @@ Winter Wyvern
 Witch Doctor
 Wraith King
 Zeus
+NONE
+NONE- STR is primary attribute
+NONE- AGI is primary attribute
+NONE- INT is primary attribute
