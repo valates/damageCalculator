@@ -19,9 +19,12 @@ import tkinter
 #TODO items generally not seem to do anything on placeholder heroes
 #TODO ethereal state not stopping right click damage or item damage
 
+#flat item damage not showing up
+#block doesnt work?
+#crit doesnt work
+
 class Central(tkinter.Frame):
 
-    ATTACKER_INDEX = 1
     MAX_ITEM_COUNT = 6
 
     PLACEHOLDER_HERO_NAME = "NONE"
@@ -52,7 +55,6 @@ class Central(tkinter.Frame):
         self.pack_propagate(0)
         self.pack()
 
-
         self.init_attacker_bonus_inputs()
         self.init_block_source_variables()
         self.init_crit_source_variables()
@@ -61,8 +63,6 @@ class Central(tkinter.Frame):
         self.init_hero_items()
         self.init_hero_level_buttons()
         self.init_initiation_devices()
-
-
 
         self.format_buttons()
 
@@ -182,7 +182,7 @@ class Central(tkinter.Frame):
         attacker_hero = Central.create_hero(self.attacker_hero.get())
         attacker_level = Central.create_hero_level(self.attacker_level.get())
 
-        defender_hero = Central.create_hero(self.attacker_hero.get())
+        defender_hero = Central.create_hero(self.defender_hero.get())
         defender_level = Central.create_hero_level(self.defender_level.get())
 
 
@@ -206,7 +206,6 @@ class Central(tkinter.Frame):
 
         if not party_is_ethereal:
             damage_sources.append(PhysicalDamage(attacker_base_damage + primary_stat_gain))
-            damage_sources.append(MagicalDamage(primary_stat_sum * Central.ETHEREAL_BLADE_DAMAGE_MULTIPLIER.get_percentage_multiple()))
         elif party_is_ethereal and  ethereal_used_offensively:
             damage_sources.append(MagicalDamage(primary_stat_sum * Central.ETHEREAL_BLADE_DAMAGE_MULTIPLIER.get_percentage_multiple()))
 
@@ -217,11 +216,11 @@ class Central(tkinter.Frame):
 
         defender_armor, defender_base_magic_resistance, defender_strength = Central.target_base_defenses(defender_hero, defender_level)
 
-        if party_is_ethereal:
+        if not party_is_ethereal:
             attacker_percentage_bonuses, attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities = Central.integrate_right_click_based_item_properties(attacker_items, 
                                                                                                                                                                                     defender_items, 
                                                                                                                                                                                     damage_sources, 
-                                                                                                                                                                                    attacker_percentage_bonuses,
+                                                                                                                                                                                    attacker_percentage_bonuses, 
                                                                                                                                                                                     attacker_flat_bonuses, 
                                                                                                                                                                                     defender_armor)
         else:
@@ -300,32 +299,32 @@ class Central(tkinter.Frame):
         return values_returned
 
     def derive_items(self):
-            with open("item_metadata", "r") as f:
-                all_item_metadata = ast.literal_eval(f.read())
+        with open("item_metadata", "r") as f:
+            all_item_metadata = ast.literal_eval(f.read())
 
-            ethereal_used_offensively = False
-            attacker_items = []
-            for item in self.attacker_item_choices:
-                item_name = item.get()
-                ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[0] == item_name)
-                if item_name in all_item_metadata:
-                    attacker_items.append(Item(all_item_metadata[item_name]))
+        ethereal_used_offensively = False
+        attacker_items = []
+        for item in self.attacker_item_choices:
+            item_name = item.get()
+            ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[0] == item_name)
+            if item_name in all_item_metadata:
+                attacker_items.append(Item(all_item_metadata[item_name]))
 
-            defender_items = []
-            for item in self.attacker_item_choices:
-                item_name = item.get()
-                ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[1] == item_name)
-                if item_name in all_item_metadata:
-                    defender_items.append(Item(all_item_metadata[item_name]))
+        defender_items = []
+        for item in self.attacker_item_choices:
+            item_name = item.get()
+            ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[1] == item_name)
+            if item_name in all_item_metadata:
+                defender_items.append(Item(all_item_metadata[item_name]))
 
-            return attacker_items, defender_items, ethereal_used_offensively
+        return attacker_items, defender_items, ethereal_used_offensively
 
     def derive_singular_source_item(metadata_file_name, source_name, critical_strike=True):
-            singular_source_list = []
-            with open(metadata_file_name, "r") as f:
-                source_metadata = ast.literal_eval(f.read())
-            item_entry = source_metadata[source_name]
-            return CriticalStrike(Percentage(item_entry["crit chance"]), Percentage(item_entry["crit multiplier"])) if critical_strike else DamageBlock(item_entry["block amount"], Percentage(item_entry["block chance"]))
+        singular_source_list = []
+        with open(metadata_file_name, "r") as f:
+            source_metadata = ast.literal_eval(f.read())
+        item_entry = source_metadata[source_name]
+        return CriticalStrike(Percentage(item_entry["crit chance"]), Percentage(item_entry["crit multiplier"])) if critical_strike else DamageBlock(item_entry["block amount"], Percentage(item_entry["block chance"]))
 
     def determine_party_is_ethereal(items):
         for item in items:
@@ -369,7 +368,7 @@ class Central(tkinter.Frame):
             defender_armor += item.get_armor()
             defender_evasion_quantities.append(item.get_evasion())
 
-        return attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities
+        return attacker_percentage_bonuses, attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities
 
     def integrate_non_right_click_based_item_properties(attacker_items, defender_items, attacker_spell_amp_sources):
         defender_magic_resistances = []
