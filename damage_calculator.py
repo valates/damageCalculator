@@ -33,7 +33,7 @@ def calculate_total_damage(damage_sources,
 	>>> pure_damage = PureDamage(5000)
 	>>> damages = [pure_damage]
 	>>> zero_percent = Percentage("0%")
-	>>> calculate_total_damage(damages, [], [], [], [], 0, zero_percent, 1000, [], [])
+	>>> calculate_total_damage(damages, [], [], [], [], [], 0, [], zero_percent, 1000, [], [], [])
 	5000
 	"""
 	assert isinstance(damage_sources, list)
@@ -68,7 +68,7 @@ def calculate_total_damage(damage_sources,
 	for pure_damage_source in pure_damages:
 		pure_damage += pure_damage_source.get_damage_quantity()
 
-	return int((phyical_damage_after_multipliers + magical_damage_after_multipliers + pure_damage))
+	return round((phyical_damage_after_multipliers + magical_damage_after_multipliers + pure_damage))
 
 
 def calculate_physical_damage(damage_sources, 
@@ -83,46 +83,46 @@ def calculate_physical_damage(damage_sources,
 	>>> damage1 = PhysicalDamage(49)
 	>>> damage2 = PhysicalDamage(51)
 	>>> damages = [damage1, damage2]
-	>>> calculate_physical_damage(damages, [], [], [], [], 0, [])
-	100
-	>>> calculate_physical_damage(damages, [], [], [], [], -60, [])
+	>>> calculate_physical_damage(damages, [], [], [], [], 0, [], [])
+	100.0
+	>>> round(calculate_physical_damage(damages, [], [], [], [], -60, [], []))
 	183
-	>>> calculate_physical_damage(damages, [], [], [], [], 60, [])
-	17
+	>>> round(calculate_physical_damage(damages, [], [], [], [], 60, [], []), 2)
+	17.46
 	>>> hundred_percent = Percentage("100%")
 	>>> hundred_percent_bonus_damage = PercentageDamageBonus(hundred_percent)
-	>>> calculate_physical_damage(damages, [hundred_percent_bonus_damage], [], [], [], -60, [])
+	>>> round(calculate_physical_damage(damages, [hundred_percent_bonus_damage], [], [], [], -60, [], []))
 	365
 	>>> ten_percent = Percentage("10%")
 	>>> ten_bonus_damage = PercentageDamageBonus(ten_percent)
-	>>> calculate_physical_damage(damages, [ten_bonus_damage], [], [], [], -60, [])
+	>>> round(calculate_physical_damage(damages, [ten_bonus_damage], [], [], [], -60, [], []))
 	201
 	>>> flat_bonus1 = FlatDamageBonus(13)
 	>>> flat_bonus2 = FlatDamageBonus(7)
 	>>> flat_bonuses = [flat_bonus1, flat_bonus2]
-	>>> calculate_physical_damage(damages, [], flat_bonuses, [], [], 0, [])
-	120
-	>>> calculate_physical_damage(damages, [hundred_percent_bonus_damage], flat_bonuses, [], [], 0, [])
-	220
+	>>> calculate_physical_damage(damages, [], flat_bonuses, [], [], 0, [], [])
+	120.0
+	>>> calculate_physical_damage(damages, [hundred_percent_bonus_damage], flat_bonuses, [], [], 0, [], [])
+	220.0
 	>>> always_blocker = DamageBlock(20, hundred_percent)
-	>>> calculate_physical_damage(damages, [], [], [], [always_blocker], 0, [])
-	80
-	>>> calculate_physical_damage(damages, [], flat_bonuses, [], [always_blocker], 0, [])
-	100
+	>>> calculate_physical_damage(damages, [], [], [], [always_blocker], 0, [], [])
+	80.0
+	>>> calculate_physical_damage(damages, [], flat_bonuses, [], [always_blocker], 0, [], [])
+	100.0
 	>>> fake_bristle = Percentage("50%")
-	>>> calculate_physical_damage(damages, [], [], [], [], 0, [fake_bristle])
-	50
-	>>> calculate_physical_damage(damages, [], [], [], [always_blocker], 0, [fake_bristle])
-	40
+	>>> calculate_physical_damage(damages, [], [], [], [], 0, [], [fake_bristle])
+	50.0
+	>>> calculate_physical_damage(damages, [], [], [], [always_blocker], 0, [], [fake_bristle])
+	40.0
 	>>> fifty_percent = Percentage("50%")
 	>>> half_blocker = DamageBlock(20, fifty_percent)
-	>>> calculate_physical_damage(damages, [], [], [], [half_blocker], 0, [])
-	90
+	>>> calculate_physical_damage(damages, [], [], [], [half_blocker], 0, [], [])
+	90.0
 	>>> half_blocker2 = DamageBlock(40, fifty_percent)
 	>>> two_hundred_percent = Percentage("200%")
 	>>> crit_chance = CriticalStrike(hundred_percent, two_hundred_percent) 
-	>>> calculate_physical_damage(damages, [hundred_percent_bonus_damage], flat_bonuses, [crit_chance], [always_blocker], 0, [fake_bristle])
-	205
+	>>> calculate_physical_damage(damages, [hundred_percent_bonus_damage], flat_bonuses, [crit_chance], [always_blocker], 0, [], [fake_bristle])
+	210.0
 	"""
 	assert isinstance(damage_sources, list)
 	assert isinstance(attacker_percentage_bonuses, list)
@@ -158,7 +158,7 @@ def calculate_physical_damage(damage_sources,
 	physical_damage = 0 if physical_damage < 0 else physical_damage #Verified in game that when damage block > damage of attacker it sets to 0
 
 	#Multiply by armor factor
-	physical_damage *= get_armor_damage_multiplier(round(defender_armor))
+	physical_damage *= get_armor_damage_multiplier(defender_armor)
 
 	#Factor in general damage multipliers
 	for damage_multiplier in general_damage_multipliers:
@@ -170,7 +170,7 @@ def calculate_physical_damage(damage_sources,
 		evasion_stacking_result *= (1 - evasion_source.get_percentage_multiple())
 
 	#Rather than speculating on odds of missing, we use expected values to use evasion with our damage
-	return round(physical_damage * evasion_stacking_result)
+	return physical_damage * evasion_stacking_result
 
 def calculate_magical_damage(damage_sources, 
 								attacker_spell_amp_sources, 
@@ -183,15 +183,18 @@ def calculate_magical_damage(damage_sources,
 	>>> magical_damage2 = MagicalDamage(51)
 	>>> magical_damages = [magical_damage1, magical_damage2]
 	>>> zero_percent = Percentage("0%")
-	>>> calculate_magical_damage(magical_damages, zero_percent, 0, [])
-	100
-	>>> calculate_magical_damage(magical_damages, zero_percent, 100, []) #100 strength ==> 8% spell resistance from strength
-	92
+	>>> calculate_magical_damage(magical_damages, [], zero_percent, 0, [], [])
+	100.0
+	>>> twenty_five_percent = Percentage("25%")
+	>>> calculate_magical_damage([MagicalDamage(400)], [], twenty_five_percent, 0, [], [])
+	300.0
+	>>> calculate_magical_damage(magical_damages, [], zero_percent, 100, [], []) #100 strength ==> 8% spell resistance from strength
+	92.0
 	>>> base_hero_resistance = Percentage("25%")
 	>>> level_four_counterspell_resistance = Percentage("45%")
 	>>> cloak_resistance = Percentage("15%")
-	>>> calculate_magical_damage(magical_damages, base_hero_resistance, 0, [level_four_counterspell_resistance, cloak_resistance])
-	35
+	>>> calculate_magical_damage(magical_damages, [], base_hero_resistance, 0, [level_four_counterspell_resistance, cloak_resistance], [])
+	35.0
 	"""
 	assert isinstance(damage_sources, list)
 	assert isinstance(defender_base_magic_resistance, Percentage)
@@ -214,9 +217,9 @@ def calculate_magical_damage(damage_sources,
 	if magic_damage < 0:
 		magic_damage = 0
 
-	return round(magic_damage * (1 - get_total_magic_resistance(defender_base_magic_resistance,
+	return magic_damage * (1 - get_total_magic_resistance(defender_base_magic_resistance,
 																defender_strength,
-																defender_magic_resistances)))
+																defender_magic_resistances))
 
 
 if __name__ == "__main__":

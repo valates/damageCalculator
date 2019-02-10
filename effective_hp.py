@@ -24,9 +24,9 @@ def get_total_magic_resistance(base_magic_resistance, strength, magic_resistance
 	total_magic_resistance = (1 - base_magic_resistance.get_percentage_multiple()) * (1 - strength * STRENGTH_MAGIC_RESISTANCE_PERCENT_MULTIPLIER.get_percentage_multiple())
 	for resistance in magic_resistances:
 		#Simply no-op if the list has a non-percentage object in it
-		resistance_percentage_multiple = resistance.get_percentage_multiple()
-		assert resistance_percentage_multiple <= 1.0
 		if isinstance(resistance, Percentage):
+			resistance_percentage_multiple = resistance.get_percentage_multiple()
+			assert resistance_percentage_multiple <= 1.0
 			total_magic_resistance *= (1 - resistance_percentage_multiple)
 	#In game magic resistance is expressed as integer percentages, so we don't go beyond 2 significant digits for our multiplier
 	return round((1 - total_magic_resistance), 2)
@@ -101,7 +101,7 @@ def get_armor_damage_multiplier(armor):
 	>>> round(get_armor_damage_multiplier(60), 3)
 	0.175
 	"""
-	assert isinstance(armor, int)
+	assert isinstance(armor, int) or isinstance(armor, float)
 	return (1 - ((0.052 * armor) / (0.9 + 0.048 * abs(armor))))
 
 def effect_hp_against_physical(health, armor):

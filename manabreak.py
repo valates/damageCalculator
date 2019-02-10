@@ -5,7 +5,7 @@ class Manabreak(AttackModifier):
 
 	def __init__(self, mana_burn):
 		assert isinstance(mana_burn, int) or isinstance(mana_burn, float)
-		self.mana_burn = round(mana_burn)
+		self.mana_burn = mana_burn
 
 	def get_effect(self):
 		return MagicalDamage(self.mana_burn)

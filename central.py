@@ -9,12 +9,14 @@ from percentage import Percentage
 from percentage_damage_bonus import PercentageDamageBonus
 from physical_damage import PhysicalDamage
 from physical_damage import PhysicalDamage
+from ui_unit_test_injector import UIUnitTestInjector
 import ast
 import tkinter
 
 #TODO print in window
 #TODO print queued previous with data of situation
-#fix percentage damage bug
+#TODO implement true strike (evasion bypassing)
+#TODO implement evasion stopping conditional procs
 
 class Central(tkinter.Frame):
 
@@ -24,6 +26,12 @@ class Central(tkinter.Frame):
     MAX_ITEM_COUNT = 10
 
     PLACEHOLDER_HERO_NAME = "NONE"
+
+    VALID_HERO_LEVELS = ["1", "2", "3", "4", "5", 
+                            "6", "7", "8", "9", "10", 
+                            "11", "12", "13", "14", "15", 
+                            "16", "17", "18", "19", "20", 
+                            "21", "22", "23", "24", "25"]
 
     ATTACKER_SELECT_DEFAULT = "Select an attacker"
     ATTACKER_CRIT_SOURCE_DEFAULT = "Select attacker crit source"
@@ -40,27 +48,56 @@ class Central(tkinter.Frame):
     AGILITY_TO_ARMOR_CONVERSION_FACTOR = 0.16
     INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR = 0.07
     ETHEREAL_BLADE_DAMAGE_MULTIPLIER = Percentage("200%")
-    ETHEREAL_BLADE_USED_INDICATOR = ["Ethereal Blade (active used on enemy)", "Ethereal Blade (active used by enemy)"]
+    ETHEREAL_BLADE_USED_INDICATOR = ["Ethereal Blade (active used on target)"]
 
-    def __init__(self, master):
-        tkinter.Frame.__init__(self,
-                          master,
-                          width=1500,
-                          height=1000)
-        self.master.title("Damage calculator")
-        self.pack_propagate(0)
-        self.pack()
+    def __init__(self, master, unit_test_attribute_injector=None):
+        if unit_test_attribute_injector is None:
+            tkinter.Frame.__init__(self,
+                              master,
+                              width=1500,
+                              height=1000)
+            self.master.title("Damage calculator")
+            self.pack_propagate(0)
+            self.pack()
 
-        self.init_attacker_bonus_inputs()
-        self.init_block_source_variables()
-        self.init_crit_source_variables()
-        self.init_general_damage_multipliers()
-        self.init_hero_choices()
-        self.init_hero_items()
-        self.init_hero_level_buttons()
-        self.init_initiation_devices()
+            self.init_attacker_bonus_inputs()
+            self.init_block_source_variables()
+            self.init_crit_source_variables()
+            self.init_general_damage_multipliers()
+            self.init_hero_choices()
+            self.init_hero_items()
+            self.init_hero_level_buttons()
+            self.init_initiation_devices()
 
-        self.format_buttons()
+            self.format_buttons()
+        else:
+            print("Injecting unit test values in Central object")
+            self.inject_unit_test_values(unit_test_attribute_injector)
+
+    def inject_unit_test_values(self, injector):
+        if injector is None:
+            return
+        assert isinstance(injector, UIUnitTestInjector)
+        #Constructor path designed to allow unit testing
+        #StringVar() constructor signature is __init__(self, master=None, value=None, name=None) 
+        #Source: http://epydoc.sourceforge.net/stdlib/Tkinter.StringVar-class.html
+        self.attacker_hero = tkinter.StringVar(None, injector.get_attacker_hero_name())
+        self.defender_hero = tkinter.StringVar(None, injector.get_defender_hero_name())
+        self.attacker_level = tkinter.StringVar(None, injector.get_attacker_hero_level())
+        self.defender_level = tkinter.StringVar(None, injector.get_defender_hero_level())
+        self.attacker_item_choices = []
+        items = injector.get_attacker_item_choices()
+        for item in items:
+            self.attacker_item_choices.append(tkinter.StringVar(None, item))
+        self.defender_item_choices = []
+        items = injector.get_defender_item_choices()
+        for item in items:
+            self.defender_item_choices.append(tkinter.StringVar(None, item))
+        self.attacker_percent_var = tkinter.StringVar(None, injector.get_attacker_percent_var())
+        self.attacker_flat_var = tkinter.StringVar(None, injector.get_attacker_flat_var())
+        self.defender_block_var = tkinter.StringVar(None, injector.get_defender_block_var())
+        self.attacker_crit_var = tkinter.StringVar(None, injector.get_attacker_crit_var())
+        self.general_damage_multipliers = tkinter.StringVar(None, injector.get_general_damage_multipliers())
 
 
     def init_hero_choices(self):
@@ -154,6 +191,7 @@ class Central(tkinter.Frame):
                                    text='Calculate',
                                    command=self.calculate_damage_for_single_sample)
 
+
     def format_buttons(self):
         self.attacker.pack(side=tkinter.TOP, anchor="w")
         self.attacker_level_set.pack(side=tkinter.TOP, anchor="w")
@@ -224,19 +262,21 @@ class Central(tkinter.Frame):
             damage_sources = [damage_source for damage_source in damage_sources if not isinstance(damage_source, PhysicalDamage)]
             attacker_flat_bonuses = []
             defender_evasion_quantities = []
-        attacker_spell_amp_sources, defender_magic_resistances, defender_spell_shield_quantities = Central.integrate_non_right_click_based_item_properties(attacker_items, 
+        damage_sources, attacker_spell_amp_sources, defender_magic_resistances, defender_spell_shield_quantities = Central.integrate_non_right_click_based_item_properties(damage_sources,
+                                                                                                                                                            attacker_items, 
                                                                                                                                                             defender_items,
                                                                                                                                                             attacker_spell_amp_sources)
 
 
         #Derive crit, block, and general damage multipliers
+        #The below sections will be reworked once multiple crit souces support has been added
         attacker_crit_sources = []
         if self.attacker_crit_var.get() != Central.ATTACKER_CRIT_SOURCE_DEFAULT:
-            attacker_crit_sources.append(Central.derive_singular_source_item("critical_strike_metadata", self.attacker_crit_var.get()))
+            attacker_crit_sources = Central.derive_singular_source_item("critical_strike_metadata", self.attacker_crit_var.get())
 
         defender_block_sources = []
         if self.defender_block_var.get() != Central.DEFENDER_BLOCK_SOURCE_DEFAULT:
-            defender_block_sources.append(Central.derive_singular_source_item("block_source_metadata", self.defender_block_var.get(), False))
+            defender_block_sources = Central.derive_singular_source_item("block_source_metadata", self.defender_block_var.get(), False)
 
         general_damage_multipliers = Central.create_list_of_values(self.general_damage_multipliers.get(), Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
@@ -256,7 +296,8 @@ class Central(tkinter.Frame):
                                                 defender_spell_shield_quantities,
                                                 general_damage_multipliers)
 
-        print("\nTotal damage from attacker to defender: " + str(total_damage))
+        print(total_damage)
+        return total_damage
 
 
 
@@ -271,11 +312,8 @@ class Central(tkinter.Frame):
 
         return attacker_str_gain, attacker_agi_gain, attacker_int_gain
 
-    def check_hero_level_bounds(hero_level):
-        return hero_level if (hero_level >= 1) and (hero_level <= 25) else 1
-
     def create_hero_level(hero_level):
-        return Central.check_hero_level_bounds(int(hero_level)) if hero_level != Central.HERO_LEVEL_DEFAULT else 1
+        return int(hero_level) if hero_level in Central.VALID_HERO_LEVELS else 1
 
     def create_hero(hero_name):
         with open("hero_metadata", "r") as f:
@@ -285,7 +323,7 @@ class Central(tkinter.Frame):
     def create_list_of_values(value_string, default_string, generate_percentage=True):
         values_returned = []
         if value_string != default_string:
-            values = value_string.split(",")
+            values = [final_value for final_value in [value.replace(" ", "") for value in value_string.split(",")] if final_value != ""]
             for value in values:
                 try:
                     values_returned.append((Percentage(value) if generate_percentage else int(value)))
@@ -308,7 +346,6 @@ class Central(tkinter.Frame):
         defender_items = []
         for item in self.defender_item_choices:
             item_name = item.get()
-            ethereal_used_offensively = ethereal_used_offensively or (Central.ETHEREAL_BLADE_USED_INDICATOR[1] == item_name)
             if item_name in all_item_metadata:
                 defender_items.append(Item(all_item_metadata[item_name]))
 
@@ -318,8 +355,10 @@ class Central(tkinter.Frame):
         singular_source_list = []
         with open(metadata_file_name, "r") as f:
             source_metadata = ast.literal_eval(f.read())
-        item_entry = source_metadata[source_name]
-        return CriticalStrike(Percentage(item_entry["crit chance"]), Percentage(item_entry["crit multiplier"])) if critical_strike else DamageBlock(item_entry["block amount"], Percentage(item_entry["block chance"]))
+        if source_name in source_metadata:
+            item_entry = source_metadata[source_name]
+            singular_source_list.append(CriticalStrike(Percentage(item_entry["crit chance"]), Percentage(item_entry["crit multiplier"])) if critical_strike else DamageBlock(item_entry["block amount"], Percentage(item_entry["block chance"])))
+        return singular_source_list
 
     def determine_party_is_ethereal(items):
         for item in items:
@@ -340,10 +379,13 @@ class Central(tkinter.Frame):
 
     def integrate_attacker_bonuses(percentage_input, flat_input):
         percentages_to_create_bonuses = Central.create_list_of_values(percentage_input, Central.ATTACKER_PERCENT_BONUS_DEFAULT)
-        attacker_percentage_bonuses = [PercentageDamageBonus(percentage_bonus) for percentage_bonus in percentages_to_create_bonuses if percentage_bonus is not None] #percentage bonus is None when bad input is encountered
+        #Negative attacker percentage bonuses are not allowed and are pruned here
+        #Percentage bonus is None when bad input is encountered
+        attacker_percentage_bonuses = [PercentageDamageBonus(percentage_bonus) for percentage_bonus in percentages_to_create_bonuses if percentage_bonus is not None and percentage_bonus.get_percentage_multiple() >= 0]
 
         flat_bonuses = Central.create_list_of_values(flat_input, Central.ATTACKER_FLAT_BONUS_DEFAULT, False)
-        attacker_flat_bonuses = [FlatDamageBonus(flat_bonus) for flat_bonus in flat_bonuses if flat_bonus is not None] #flat bonus is None when bad input is encountered
+        #flat bonus is None when bad input is encountered
+        attacker_flat_bonuses = [FlatDamageBonus(flat_bonus) for flat_bonus in flat_bonuses if flat_bonus is not None] 
 
         return attacker_percentage_bonuses, attacker_flat_bonuses
 
@@ -354,7 +396,6 @@ class Central(tkinter.Frame):
             attacker_flat_bonuses.append(FlatDamageBonus(item.get_damage()))
             damage_sources.append(item.get_conditional_proc().get_conditional_expected_damage_instance())
             damage_sources.append(item.get_manabreak())
-            damage_sources.append(MagicalDamage(item.get_magic_burst()))
             damage_sources.append(PhysicalDamage(item.get_physical_burst()))
             defender_armor += item.get_armor_of_target()
 
@@ -365,18 +406,19 @@ class Central(tkinter.Frame):
 
         return attacker_percentage_bonuses, attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities
 
-    def integrate_non_right_click_based_item_properties(attacker_items, defender_items, attacker_spell_amp_sources):
+    def integrate_non_right_click_based_item_properties(damage_sources, attacker_items, defender_items, attacker_spell_amp_sources):
         defender_magic_resistances = []
         defender_spell_shield_quantities = []
         for item in attacker_items:
             attacker_spell_amp_sources.append(item.get_spell_amp())
             defender_magic_resistances.append(item.get_target_magic_resist())
+            damage_sources.append(MagicalDamage(item.get_magic_burst()))
 
         for item in defender_items:
             defender_magic_resistances.append(item.get_magic_resistance())
             defender_spell_shield_quantities.append(item.get_magic_barrier())
 
-        return attacker_spell_amp_sources, defender_magic_resistances, defender_spell_shield_quantities
+        return damage_sources, attacker_spell_amp_sources, defender_magic_resistances, defender_spell_shield_quantities
 
     def target_base_defenses(defender, defender_level):
         defender_armor = defender.get_base_armor() + (defender.get_agility_gain() * (defender_level - 1) * Central.AGILITY_TO_ARMOR_CONVERSION_FACTOR)
@@ -387,6 +429,3 @@ class Central(tkinter.Frame):
 
     def run(self):
         self.mainloop()
- 
-app = Central(tkinter.Tk())
-app.run()

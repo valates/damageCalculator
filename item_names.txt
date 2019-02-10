@@ -62,8 +62,7 @@ Echo Sabre
 Energy Booster
 Ethereal Blade
 Ethereal Blade (active used by ally)
-Ethereal Blade (active used by enemy)
-Ethereal Blade (active used on enemy)
+Ethereal Blade (active used on target)
 Eul's Scepter of Divinity
 Eye of Skadi
 Force Staff

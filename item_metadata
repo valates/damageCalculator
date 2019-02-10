@@ -893,16 +893,13 @@
 		"is ethereal": True,
 		"magic resist": "-40%"
 	},
-	"Ethereal Blade (active used on enemy)": {
+	"Ethereal Blade (active used on target)": {
 		#Damage applies after ethereal state
+		"strength": 10,
+		"agility": 40,
+		"intelligence": 10,
 		"target ethereal": True,
 		"target magic resist": "-40%",
-		"magic burst": 75
-	},
-	"Ethereal Blade (active used by enemy)": {
-		#Damage applies after ethereal state
-		"is ethereal": True,
-		"magic resist": "-40%",
 		"magic burst": 75
 	},
 	"Silver Edge": {
