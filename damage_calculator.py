@@ -221,6 +221,12 @@ def calculate_magical_damage(damage_sources,
 																defender_strength,
 																defender_magic_resistances))
 
+def calculate_time_between_attacks(attack_speed_sum, base_attack_time):
+	"""
+	>>> calculate_time_between_attacks(120, 1.7)
+	1.42
+	"""
+	return round(base_attack_time / (0.01 * attack_speed_sum), 2)
 
 if __name__ == "__main__":
     import doctest

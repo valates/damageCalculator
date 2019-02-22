@@ -101,3 +101,6 @@ class Item():
 
 	def get_damage_percentage_boost(self):
 		return self.damage_percentage_boost 
+
+	def get_attack_speed(self):
+		return self.attack_speed

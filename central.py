@@ -23,9 +23,11 @@ class Central(tkinter.Frame):
     #The smallest difference of time expressed in Dota.
     TIME_SAMPLE_INCREMENT = 0.01
 
-    MAX_ITEM_COUNT = 10
+    MAX_ITEM_COUNT = 6
 
     PLACEHOLDER_HERO_NAME = "NONE"
+
+    STANDARD_BASE_ATTACK_TIME = 1.7
 
     VALID_HERO_LEVELS = ["1", "2", "3", "4", "5", 
                             "6", "7", "8", "9", "10", 
@@ -67,6 +69,7 @@ class Central(tkinter.Frame):
             self.init_hero_choices()
             self.init_hero_items()
             self.init_hero_level_buttons()
+            self.init_time_box()
             self.init_initiation_devices()
 
             self.format_buttons()
@@ -81,10 +84,10 @@ class Central(tkinter.Frame):
         #Constructor path designed to allow unit testing
         #StringVar() constructor signature is __init__(self, master=None, value=None, name=None) 
         #Source: http://epydoc.sourceforge.net/stdlib/Tkinter.StringVar-class.html
-        self.attacker_hero = tkinter.StringVar(None, injector.get_attacker_hero_name())
-        self.defender_hero = tkinter.StringVar(None, injector.get_defender_hero_name())
-        self.attacker_level = tkinter.StringVar(None, injector.get_attacker_hero_level())
-        self.defender_level = tkinter.StringVar(None, injector.get_defender_hero_level())
+        self.attacker_hero_choice = tkinter.StringVar(None, injector.get_attacker_hero_name())
+        self.defender_hero_choice = tkinter.StringVar(None, injector.get_defender_hero_name())
+        self.attacker_level_choice = tkinter.StringVar(None, injector.get_attacker_hero_level())
+        self.defender_level_choice = tkinter.StringVar(None, injector.get_defender_hero_level())
         self.attacker_item_choices = []
         items = injector.get_attacker_item_choices()
         for item in items:
@@ -105,17 +108,17 @@ class Central(tkinter.Frame):
             hero_names = f.readlines()
         hero_names = [hero_name.replace("\n", "") for hero_name in hero_names]
 
-        self.attacker_hero = tkinter.StringVar()
-        self.attacker_hero.set(Central.ATTACKER_SELECT_DEFAULT)
+        self.attacker_hero_choice = tkinter.StringVar()
+        self.attacker_hero_choice.set(Central.ATTACKER_SELECT_DEFAULT)
 
         self.attacker = tkinter.OptionMenu(self,
-                                      self.attacker_hero,
+                                      self.attacker_hero_choice,
                                       *hero_names)
 
-        self.defender_hero = tkinter.StringVar()
-        self.defender_hero.set(Central.DEFENDER_SELECT_DEFAULT)
+        self.defender_hero_choice = tkinter.StringVar()
+        self.defender_hero_choice.set(Central.DEFENDER_SELECT_DEFAULT)
         self.defender = tkinter.OptionMenu(self,
-                                      self.defender_hero,
+                                      self.defender_hero_choice,
                                       *hero_names)
 
     def init_hero_items(self):
@@ -176,20 +179,26 @@ class Central(tkinter.Frame):
         self.general_damage_multipliers.set(Central.GENERAL_DAMAGE_MULTIPLIER_DEFAULT)
 
     def init_hero_level_buttons(self):
-        self.attacker_level = tkinter.StringVar()
+        self.attacker_level_choice = tkinter.StringVar()
         self.attacker_level_set = tkinter.Entry(self, width=17,
-                                  textvariable=self.attacker_level)
-        self.attacker_level.set(Central.HERO_LEVEL_DEFAULT)
+                                  textvariable=self.attacker_level_choice)
+        self.attacker_level_choice.set(Central.HERO_LEVEL_DEFAULT)
 
-        self.defender_level = tkinter.StringVar()
+        self.defender_level_choice = tkinter.StringVar()
         self.defender_level_set = tkinter.Entry(self, width=18,
-                                  textvariable=self.defender_level)
-        self.defender_level.set(Central.HERO_LEVEL_DEFAULT)
+                                  textvariable=self.defender_level_choice)
+        self.defender_level_choice.set(Central.HERO_LEVEL_DEFAULT)
+
+    def init_time_box(self): #TODO sanitize
+        self.attack_time = tkinter.StringVar()
+        self.attack_time.set("1")
+        self.attack_time_box = tkinter.Entry(self, width=15,
+                                  textvariable=self.attack_time)
 
     def init_initiation_devices(self):
         self.calculate_button = tkinter.Button(self,
                                    text='Calculate',
-                                   command=self.calculate_damage_for_single_sample)
+                                   command=self.calculate_total_damage)
 
 
     def format_buttons(self):
@@ -211,40 +220,72 @@ class Central(tkinter.Frame):
 
         self.calculate_button.pack(side=tkinter.BOTTOM)
 
+        self.attack_time_box.pack(side=tkinter.BOTTOM)
+
+    def calculate_total_damage(self):
+        single_sample_damage = self.calculate_damage_for_single_sample()
+        time_between_attacks = self.calculate_time_between_attacks() * Central.STANDARD_BASE_ATTACK_TIME
+        attack_timeframe = int(self.attack_time.get())
+
+        print("Damage from one attack instance: " + str(single_sample_damage))
+        print("Time between damage instances: " + str(time_between_attacks))
+        print("Specified attack timeframe: " + str(attack_timeframe))
+
+        number_of_attack_instances = 1
+        while (attack_timeframe >= time_between_attacks):
+            number_of_attack_instances += 1
+            attack_timeframe -= time_between_attacks
+
+        print("\n\nTotal damage: " + str(number_of_attack_instances * single_sample_damage))
+
+
+    def calculate_time_between_attacks(self):
+        base_attack_time = self.attacker_hero.get_base_attack_time()
+        attack_speed_sum = 100 + self.attacker_hero.get_agility() + (self.attacker_hero.get_agility_gain() * (self.attacker_level - 1))
+
+        #Add attack speed grwoth from agi in items and attack speed in items
+        for item in self.attacker_items:
+            attack_speed_sum += item.get_agility()
+            attack_speed_sum += item.get_attack_speed()
+
+        attacks_per_second = 0.01 * (attack_speed_sum * (Central.STANDARD_BASE_ATTACK_TIME / base_attack_time))
+
+        return round(1 / attacks_per_second, 2)
+
  
     def calculate_damage_for_single_sample(self):  
         #Initiate both heroes
-        attacker_hero = Central.create_hero(self.attacker_hero.get())
-        attacker_level = Central.create_hero_level(self.attacker_level.get())
+        self.attacker_hero = Central.create_hero(self.attacker_hero_choice.get())
+        self.attacker_level = Central.create_hero_level(self.attacker_level_choice.get())
 
-        defender_hero = Central.create_hero(self.defender_hero.get())
-        defender_level = Central.create_hero_level(self.defender_level.get())
+        defender_hero = Central.create_hero(self.defender_hero_choice.get())
+        defender_level = Central.create_hero_level(self.defender_level_choice.get())
 
 
-        print(attacker_hero.get_hero_name() + " attacking " + defender_hero.get_hero_name() + "...")
+        print(self.attacker_hero.get_hero_name() + " attacking " + defender_hero.get_hero_name() + "...")
 
         damage_sources = []
         attacker_spell_amp_sources = []
-        attacker_base_damage = attacker_hero.get_expected_attack_damage()
-        attacker_primary_attr = attacker_hero.get_primary_attr()
+        attacker_base_damage = self.attacker_hero.get_expected_attack_damage()
+        attacker_primary_attr = self.attacker_hero.get_primary_attr()
 
         #Derive items for attacker and defender and determine if one of them has activate ethereal state on
-        attacker_items, defender_items, ethereal_used_offensively = self.derive_items()
+        self.attacker_items, defender_items, ethereal_used_offensively = self.derive_items()
 
-        party_is_ethereal = Central.determine_party_is_ethereal((attacker_items + defender_items))
+        party_is_ethereal = Central.determine_party_is_ethereal((self.attacker_items + defender_items))
 
         #Get primary attribute gain and damage based on primary attribute for right click or e-blade projectile
-        attacker_str_gain, attacker_agi_gain, attacker_int_gain = Central.calculate_stat_gains_above_starting_stats_attacker(attacker_hero,
-                                                                                                                                attacker_level,
-                                                                                                                                attacker_items)
-        primary_stat_sum, primary_stat_gain = Central.determine_primary_stat_sum(attacker_hero, attacker_str_gain, attacker_agi_gain, attacker_int_gain)
+        attacker_str_gain, attacker_agi_gain, attacker_int_gain = Central.calculate_stat_gains_above_starting_stats_attacker(self.attacker_hero,
+                                                                                                                                self.attacker_level,
+                                                                                                                                self.attacker_items)
+        primary_stat_sum, primary_stat_gain = Central.determine_primary_stat_sum(self.attacker_hero, attacker_str_gain, attacker_agi_gain, attacker_int_gain)
 
         if not party_is_ethereal:
             damage_sources.append(PhysicalDamage(attacker_base_damage + primary_stat_gain))
         elif party_is_ethereal and  ethereal_used_offensively:
             damage_sources.append(MagicalDamage(primary_stat_sum * Central.ETHEREAL_BLADE_DAMAGE_MULTIPLIER.get_percentage_multiple()))
 
-        attacker_spell_amp_sources.append(Percentage(str(((attacker_int_gain + attacker_hero.get_intelligence()) * Central.INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR))))
+        attacker_spell_amp_sources.append(Percentage(str(((attacker_int_gain + self.attacker_hero.get_intelligence()) * Central.INTELLIGENCE_TO_SPELL_AMP_CONVERSION_FACTOR))))
 
         #Derive all modifiers based on all items in the interaction
         attacker_percentage_bonuses, attacker_flat_bonuses = Central.integrate_attacker_bonuses(self.attacker_percent_var.get(), self.attacker_flat_var.get())
@@ -252,7 +293,7 @@ class Central(tkinter.Frame):
         defender_armor, defender_base_magic_resistance, defender_strength = Central.target_base_defenses(defender_hero, defender_level)
 
         if not party_is_ethereal:
-            attacker_percentage_bonuses, attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities = Central.integrate_right_click_based_item_properties(attacker_items, 
+            attacker_percentage_bonuses, attacker_flat_bonuses, damage_sources, defender_armor, defender_evasion_quantities = Central.integrate_right_click_based_item_properties(self.attacker_items, 
                                                                                                                                                                                     defender_items, 
                                                                                                                                                                                     damage_sources, 
                                                                                                                                                                                     attacker_percentage_bonuses, 
@@ -263,7 +304,7 @@ class Central(tkinter.Frame):
             attacker_flat_bonuses = []
             defender_evasion_quantities = []
         damage_sources, attacker_spell_amp_sources, defender_magic_resistances, defender_spell_shield_quantities = Central.integrate_non_right_click_based_item_properties(damage_sources,
-                                                                                                                                                            attacker_items, 
+                                                                                                                                                            self.attacker_items, 
                                                                                                                                                             defender_items,
                                                                                                                                                             attacker_spell_amp_sources)
 
